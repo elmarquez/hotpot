@@ -1,0 +1,55 @@
+.client {
+  align-items: stretch;
+  background-color: ghostwhite;
+  border: 1px solid darkgray;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 600px;
+  overflow: hidden;
+  position: fixed;
+  right: 30px;
+  width: 240px;
+  z-index: 1010;
+
+  .body {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .footer {
+    height: 30px;
+
+    .content {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  .header {
+    height: 30px;
+
+    .content {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  ul.messages {
+    list-style-type: none; margin: 0; padding: 0;
+  }
+  ul.messages li {
+    padding: 5px 10px;
+  }
+}
+
+.discussion.hidden {
+  display: none;
+}
