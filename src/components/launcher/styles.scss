@@ -1,5 +1,8 @@
 .launcher {
   align-items: center;
+  animation-duration: 3s;
+  animation-name: slidein;
+
   background-color: #1b82e7;
   border: none;
   border-radius: 50%;
@@ -27,7 +30,7 @@
   }
 
   img.icon {
-    background: url('hotpot.svg');
+    content: url('hotpot.svg');
     height: 28px;
     opacity: 0.94;
     width: 28px;

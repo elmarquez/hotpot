@@ -1,6 +1,8 @@
 import { h, Component } from 'preact';
 import { PropTypes } from 'preact-compat';
+import axios from 'axios';
 import io from 'socket.io-client';
+import moment from 'moment';
 import postal from 'postal';
 import Promise from 'bluebird';
 import './styles.scss';
@@ -15,7 +17,10 @@ class Discussion extends Component {
       user: 'c8fdb983-88f5-4eab-85e5-754c6653690c'
     };
     // force function binding to class scope
-    this.handleMessageChange = this.handleMessageChange.bind(this);
+    this.getMessages = this.getMessages.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
+    this.handleInputFocus = this.handleInputFocus.bind(this);
+    this.handleInputValueChange = this.handleInputValueChange.bind(this);
     this.handleMessageReceived = this.handleMessageReceived.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
   }
@@ -58,11 +63,25 @@ class Discussion extends Component {
    * @returns {Promise}
    */
   getMessages() {
-    return Promise.resolve();
+    let self = this;
+    return axios.get('/messages').then(res => {
+      self.setState({ messages: res.data });
+      this.scrollToLatestMessage();
+    });
   }
 
-  handleMessageChange(e) {
+  handleInputBlur() {
+    console.info('input blur');
+  }
+
+  handleInputFocus() {
+    console.info('input focus');
+  }
+
+  handleInputValueChange() {
     this.setState({ message: e.target.value });
+    // if the last key press was the enter key then send the message
+    this.sendMessage();
   }
 
   /**
@@ -74,6 +93,7 @@ class Discussion extends Component {
     let messages = this.state.messages.slice();
     messages.push(msg);
     this.setState({ messages: messages });
+    this.scrollToLatestMessage();
   }
 
   /**
@@ -87,17 +107,18 @@ class Discussion extends Component {
       return (
         <div className={'client'}>
           <div className={'header'}>
-            Client
-            <button onClick={this.closeWindow}>x</button>
+            {this.renderHeader()}
           </div>
-          <div className={'body'}>
+          <div className={'body'} id={'client-body'}>
             {this.renderMessages()}
           </div>
           <div className={'footer'}>
             <input
               autoComplete={'off'}
               id={'m'}
-              onChange={this.handleMessageChange}
+              onBlur={this.handleInputBlur}
+              onChange={this.handleInputValueChange}
+              onFocus={this.handleInputFocus}
               type={'text'}
               value={this.state.message}
             />
@@ -110,20 +131,64 @@ class Discussion extends Component {
     }
   }
 
+  renderChanges() {
+    let changes = this.state.messages.map(m => {
+      return h('div', { class: 'change', id: m.uuid }, [
+        h('div', { class: 'meta' }, [
+          h('span', { class: 'fullname' }, m.fullname),
+          h(
+            'span',
+            { class: 'datetime' },
+            moment(m.createdAt).format('MMM D, h:mm')
+          )
+        ]),
+        h('span', { class: 'body' }, m.message)
+      ]);
+    });
+    return h('div', { class: 'changes' }, changes);
+  }
+
   renderHeader() {
     return (
-      <div className={'content'}>
+      <div className={'tabs'}>
+        <button onClick={this.showDiscussionTab}>Discussion</button>
+        <button onClick={this.showChangeLogTab}>Changes</button>
         <button onClick={this.closeWindow}>x</button>
       </div>
     );
   }
 
+  /**
+   * Render messages.
+   * @returns {JSX.Element}
+   */
   renderMessages() {
     let messages = this.state.messages.map(m => {
-      return h('li', { class: 'message' }, [m.message]);
+      return h('div', { class: 'message', id: m.uuid, title: m.url }, [
+        h('div', { class: 'meta' }, [
+          h('span', { class: 'fullname' }, m.fullname),
+          h(
+            'span',
+            { class: 'datetime' },
+            moment(m.createdAt).format('MMM D, h:mm')
+          )
+        ]),
+        h('span', { class: 'body' }, m.message)
+      ]);
     });
-    return h('ul', { class: 'messages' }, messages);
+    return h('div', { class: 'messages' }, messages);
   }
+
+  scrollToLatestMessage() {
+    var div = document.getElementById('client-body');
+    if (div) {
+      div.scrollTop = div.scrollHeight;
+    }
+  }
+
+  showChangeLogTab() {}
+
+  showDiscussionTab() {}
 
   /**
    * Send message.
@@ -133,7 +198,8 @@ class Discussion extends Component {
       let discussion = {
         fullname: this.state.fullname,
         message: this.state.message,
-        user: this.state.user
+        user: this.state.user,
+        url: window.location.href
       };
       this.state.socket.emit('discussion', discussion);
       this.setState({ message: '' });
