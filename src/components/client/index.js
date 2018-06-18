@@ -1,10 +1,11 @@
 import { h, Component } from 'preact';
+import { PropTypes } from 'preact-compat';
+import io from 'socket.io-client';
 import postal from 'postal';
 import Promise from 'bluebird';
 import styles from './styles.scss';
 
 class Discussion extends Component {
-
   constructor(props, state) {
     super(props);
     this.state = {};
@@ -12,28 +13,31 @@ class Discussion extends Component {
     this.state.messages = [];
   }
 
-  closeWindow () {
-    postal.publish({channel:'app', topic:'toggleClientVisibility', data: {}});
+  closeWindow() {
+    postal.publish({
+      channel: 'app',
+      topic: 'toggleClientVisibility',
+      data: {}
+    });
   }
 
   componentDidMount() {
     console.info('client component mounted');
-    this
-      .connectToServer()
-      .then(this.getMessages)
-      .catch(err => console.error);
+    this.connectToServer().then(this.getMessages).catch(err => {
+      console.error(err);
+    });
   }
 
   /**
    * Connect to the chat server.
    * @returns {Promise}
    */
-  connectToServer () {
+  connectToServer() {
     let self = this;
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       try {
         let socket = io();
-        self.setState({socket:socket});
+        self.setState({ socket: socket });
         socket.on('discussion', self.handleMessagesUpdate);
         resolve(socket);
       } catch (err) {
@@ -47,10 +51,10 @@ class Discussion extends Component {
    * @returns {Promise}
    */
   getMessages() {
-    return new Promise.resolve();
+    return Promise.resolve();
   }
 
-  handleMessageChange (e) {
+  handleMessageChange(e) {
     console.info('message change', e);
   }
 
@@ -58,7 +62,7 @@ class Discussion extends Component {
    * Handle message receipt.
    * @param {Object} msg Data
    */
-  handleMessagesUpdate (msg) {
+  handleMessagesUpdate(msg) {
     console.log('received messages', msg);
   }
 
@@ -70,32 +74,32 @@ class Discussion extends Component {
    */
   render(props, state) {
     if (this.props.visible) {
-      return h('div', {class:styles.client}, [
-        h('div', {class:styles.header}, [
-          this.renderHeader()
-        ]),
-        h('div', {class:styles.body}, [
-          this.renderMessages()
-        ]),
-        h('div', {class:styles.footer}, [
-          this.renderFooter()
-        ]),
+      return h('div', { class: styles.client }, [
+        h('div', { class: styles.header }, [this.renderHeader()]),
+        h('div', { class: styles.body }, [this.renderMessages()]),
+        h('div', { class: styles.footer }, [this.renderFooter()])
       ]);
     } else {
-      return h('div', {class:'discussion hidden'}, []);
+      return h('div', { class: 'discussion hidden' }, []);
     }
   }
 
-  renderFooter () {
+  renderFooter() {
     return (
       <div className={'content'}>
-        <input autoComplete={'off'} id={'m'} onChange={this.handleMessageChange} type={'text'} value={this.state.message} />
+        <input
+          autoComplete={'off'}
+          id={'m'}
+          onChange={this.handleMessageChange}
+          type={'text'}
+          value={this.state.message}
+        />
         <button onClick={this.sendMessage}>Send</button>
       </div>
     );
   }
 
-  renderHeader () {
+  renderHeader() {
     return (
       <div className={'content'}>
         <button onClick={this.closeWindow}>x</button>
@@ -103,11 +107,11 @@ class Discussion extends Component {
     );
   }
 
-  renderMessages () {
+  renderMessages() {
     let messages = this.state.messages.map(m => {
-      return h('li', {class:'message'}, [m]);
+      return h('li', { class: 'message' }, [m]);
     });
-    return h('ul', {class:'messages'}, messages)
+    return h('ul', { class: 'messages' }, messages);
   }
 
   /**
@@ -117,7 +121,10 @@ class Discussion extends Component {
   sendMessage(msg) {
     console.info('send message', msg);
   }
-
 }
+
+Discussion.propTypes = {
+  visible: PropTypes.boolean
+};
 
 export default Discussion;

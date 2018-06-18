@@ -29,6 +29,8 @@ module.exports = {
     ],
     alias: {
       components: path.resolve(__dirname, 'src/components'), // used for tests
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat',
       style: path.resolve(__dirname, 'src/style')
     }
   },
@@ -40,7 +42,10 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader'
+            loader: 'babel-loader',
+            query: {
+              presets: ['es2015']
+            }
           }
         ]
       },

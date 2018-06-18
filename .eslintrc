@@ -2,11 +2,16 @@
   "extends": [
     "plugin:react/recommended",
     "prettier",
-    "prettier/react"
+    "prettier/react",
+    "standard",
+    "standard-preact"
   ],
   "env": {
     "browser": true,
     "es6": true
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "rules": {
+    "semi": [2, "always"]
+  }
 }
