@@ -3,9 +3,8 @@
  */
 import { h, Component } from 'preact';
 import { PropTypes } from 'preact-compat';
-import HotPotIcon from '../../img/hotpot.svg';
 import postal from 'postal';
-import styles from './styles.scss';
+import './styles.scss';
 
 class Launcher extends Component {
   constructor() {
@@ -29,11 +28,9 @@ class Launcher extends Component {
    */
   render(props, state) {
     if (this.props.visible) {
-      return h(
-        'button',
-        { class: styles.launcher, onclick: this.handleClick },
-        [<HotPotIcon width="32px" key={'icon'} />]
-      );
+      return h('button', { class: 'launcher', onclick: this.handleClick }, [
+        h('img', { class: 'icon' })
+      ]);
     } else {
       return h('button', { class: 'hidden' }, []);
     }

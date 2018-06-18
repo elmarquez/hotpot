@@ -3,14 +3,21 @@ import { PropTypes } from 'preact-compat';
 import io from 'socket.io-client';
 import postal from 'postal';
 import Promise from 'bluebird';
-import styles from './styles.scss';
+import './styles.scss';
 
 class Discussion extends Component {
   constructor(props, state) {
     super(props);
-    this.state = {};
-    this.state.message = '';
-    this.state.messages = [];
+    this.state = {
+      fullname: 'John Doe',
+      message: '',
+      messages: [],
+      user: 'c8fdb983-88f5-4eab-85e5-754c6653690c'
+    };
+    // force function binding to class scope
+    this.handleMessageChange = this.handleMessageChange.bind(this);
+    this.handleMessageReceived = this.handleMessageReceived.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
   closeWindow() {
@@ -38,7 +45,7 @@ class Discussion extends Component {
       try {
         let socket = io();
         self.setState({ socket: socket });
-        socket.on('discussion', self.handleMessagesUpdate);
+        socket.on('discussion', self.handleMessageReceived);
         resolve(socket);
       } catch (err) {
         reject(err);
@@ -55,15 +62,18 @@ class Discussion extends Component {
   }
 
   handleMessageChange(e) {
-    console.info('message change', e);
+    this.setState({ message: e.target.value });
   }
 
   /**
    * Handle message receipt.
    * @param {Object} msg Data
    */
-  handleMessagesUpdate(msg) {
-    console.log('received messages', msg);
+  handleMessageReceived(msg) {
+    console.log('received message', msg);
+    let messages = this.state.messages.slice();
+    messages.push(msg);
+    this.setState({ messages: messages });
   }
 
   /**
@@ -74,29 +84,30 @@ class Discussion extends Component {
    */
   render(props, state) {
     if (this.props.visible) {
-      return h('div', { class: styles.client }, [
-        h('div', { class: styles.header }, [this.renderHeader()]),
-        h('div', { class: styles.body }, [this.renderMessages()]),
-        h('div', { class: styles.footer }, [this.renderFooter()])
-      ]);
+      return (
+        <div className={'client'}>
+          <div className={'header'}>
+            Client
+            <button onClick={this.closeWindow}>x</button>
+          </div>
+          <div className={'body'}>
+            {this.renderMessages()}
+          </div>
+          <div className={'footer'}>
+            <input
+              autoComplete={'off'}
+              id={'m'}
+              onChange={this.handleMessageChange}
+              type={'text'}
+              value={this.state.message}
+            />
+            <button onClick={this.sendMessage}>Send</button>
+          </div>
+        </div>
+      );
     } else {
       return h('div', { class: 'discussion hidden' }, []);
     }
-  }
-
-  renderFooter() {
-    return (
-      <div className={'content'}>
-        <input
-          autoComplete={'off'}
-          id={'m'}
-          onChange={this.handleMessageChange}
-          type={'text'}
-          value={this.state.message}
-        />
-        <button onClick={this.sendMessage}>Send</button>
-      </div>
-    );
   }
 
   renderHeader() {
@@ -109,17 +120,24 @@ class Discussion extends Component {
 
   renderMessages() {
     let messages = this.state.messages.map(m => {
-      return h('li', { class: 'message' }, [m]);
+      return h('li', { class: 'message' }, [m.message]);
     });
     return h('ul', { class: 'messages' }, messages);
   }
 
   /**
    * Send message.
-   * @param {Object} msg Message
    */
-  sendMessage(msg) {
-    console.info('send message', msg);
+  sendMessage() {
+    if (this.state.message !== '') {
+      let discussion = {
+        fullname: this.state.fullname,
+        message: this.state.message,
+        user: this.state.user
+      };
+      this.state.socket.emit('discussion', discussion);
+      this.setState({ message: '' });
+    }
   }
 }
 

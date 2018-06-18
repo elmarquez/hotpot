@@ -1,14 +1,14 @@
-# stupid files
-*.swp
 *~
 *.log
+*.swp
 /*.js.map
+
+.cache
 .DS_Store
 .idea
 
-node_modules/
-
-# ignore test coverage
-coverage.data
+build
 coverage/
+coverage.data
 dev_modules/
+node_modules/

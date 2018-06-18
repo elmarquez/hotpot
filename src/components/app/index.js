@@ -1,8 +1,8 @@
 import { h, Component } from 'preact';
-import Client from 'components/client/index';
-import Launcher from 'components/launcher/index';
+import Client from '../client/index';
+import Launcher from '../launcher/index';
 import postal from 'postal';
-import styles from './styles.scss';
+import './styles.scss';
 
 class App extends Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class App extends Component {
    */
   render(props, state) {
     return (
-      <div className={styles.app}>
+      <div className="app">
         <Launcher visible={this.state.launcher} />
         <Client visible={this.state.client} />
       </div>

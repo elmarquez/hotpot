@@ -26,10 +26,10 @@
     transition: all 0.5s ease-in-out;
   }
 
-  img {
+  img.icon {
+    background: url('hotpot.svg');
     height: 28px;
     opacity: 0.94;
     width: 28px;
   }
 }
-

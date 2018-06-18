@@ -38,13 +38,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
             query: {
-              presets: ['es2015']
+              presets: ['es2015', 'es2016']
             }
           }
         ]

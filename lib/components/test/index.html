@@ -6,6 +6,7 @@
   <title>Nabemono Test Page</title>
   <meta name="description" content="Nabemono test page">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link type="text/css" rel="stylesheet" href="/client/bundle.css">
 </head>
 <body>
 
@@ -14,8 +15,10 @@
   The client application should appear in the lower right corner of the page by default.
 </p>
 
-<div id="nabemono"></div>
-<script src="/client/bundle.js"></script>
+<div class="nabemono">
+  <script type="text/props">{"position":"bottom right"}</script>
+  <script async src="/client/bundle.js" type="text/javascript"></script>
+</div>
 
 </body>
 </html>

@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "description": "Product discussion and co-creation",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",
+    "dev": "cross-env NODE_ENV=development ./node_modules/.bin/webpack-dev-server --inline --hot --progress",
     "start": "serve . -s -c 1 && node ./tools/start.cli.js",
     "prestart": "npm run build",
-    "build": "cross-env NODE_ENV=production webpack -p --progress && node ./tools/build.cli.js",
+    "succeed": "parcel build src/index.js --out-dir build",
+    "build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack -p --progress && node ./tools/build.cli.js",
     "prebuild": "mkdirp build",
     "serve": "node index.js",
     "test": "npm run lint && npm run -s test:karma && node ./tools/test.cli.js",
@@ -24,6 +25,7 @@
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
@@ -69,8 +71,9 @@
     "style-loader": "^0.18.2",
     "uglify-js": "^3.4.0",
     "url-loader": "^0.5.9",
-    "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1"
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
