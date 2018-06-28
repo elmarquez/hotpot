@@ -2,53 +2,50 @@
 <!DOCTYPE html>
 
 
-<html>
+<html lang="en">
 
 
 <head>
   <meta charset="utf-8">
 
   <title>Nabemono Test Page</title>
-
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-
+  <meta http-equiv="x-ua-compatible"
+    content="ie=edge">
 
   <meta name="description"
     content="Nabemono test page">
 
-
-  <meta name="apple-mobile-web-app-capable"
-    content="yes">
-
-
-  <meta name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent">
-
-
-  <meta name="apple-mobile-web-app-title"
-    content="Nabemono Test Page">
-
-
-  <meta name="application-name"
-    content="Nabemono Test Page">
-
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link type="text/css"
     rel="stylesheet"
-    href="/build/bundle.css">
+    href="/client/bundle.css">
 
+
+  <style>
+    body {
+      color: #36454f;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    }
+  </style>
 </head>
 
 <body>
+  <h1>Nabemono Test Page</h1>
+
+  <p>The client application should appear in the lower right corner of the page by default.
+  </p>
 
   <div class="nabemono">
-    <script type="text/props">{"position":"bottom right"}</script>
-
-    <script async
-      src="/build/bundle.js"
-      type="text/javascript"></div> </body> </html>
+    <script type="text/props">{"position":"bottom right", "user":"/api/user"}
     </script>
+    <script async
+      src="/client/bundle.js"
+      type="text/javascript" />
+
   </div>
 </body>
 </html>
