@@ -3,7 +3,6 @@ import { PropTypes } from 'preact-compat';
 import axios from 'axios';
 import io from 'socket.io-client';
 import moment from 'moment';
-import postal from 'postal';
 import Promise from 'bluebird';
 import './styles.scss';
 
@@ -26,7 +25,7 @@ class Discussion extends Component {
   }
 
   componentDidMount() {
-    console.info('discussion component mounted');
+    // console.info('discussion component mounted');
     this.connectToServer().then(this.getMessages).catch(err => {
       console.error(err);
     });
@@ -95,49 +94,25 @@ class Discussion extends Component {
    * @returns {VNode<{class: string}>}
    */
   render(props, state) {
-    if (this.props.visible) {
-      return (
-        <div className={'client'}>
-          <div className={'header'}>
-            {this.renderHeader()}
-          </div>
-          <div className={'body'} id={'client-body'}>
-            {this.renderMessages()}
-          </div>
-          <div className={'footer'}>
-            <input
-              autoComplete={'off'}
-              id={'m'}
-              onBlur={this.handleInputBlur}
-              onChange={this.handleInputValueChange}
-              onFocus={this.handleInputFocus}
-              type={'text'}
-              value={this.state.message}
-            />
-            <button onClick={this.sendMessage}>Send</button>
-          </div>
+    return (
+      <div className={'discussion'} key={'discussion'}>
+        <div className={'body'} id={'client-body'}>
+          {this.renderMessages()}
         </div>
-      );
-    } else {
-      return h('div', { class: 'discussion hidden' }, []);
-    }
-  }
-
-  renderChanges() {
-    let changes = this.state.messages.map(m => {
-      return h('div', { class: 'change', id: m.uuid }, [
-        h('div', { class: 'meta' }, [
-          h('span', { class: 'fullname' }, m.fullname),
-          h(
-            'span',
-            { class: 'datetime' },
-            moment(m.createdAt).format('MMM D, h:mm')
-          )
-        ]),
-        h('span', { class: 'body' }, m.message)
-      ]);
-    });
-    return h('div', { class: 'changes' }, changes);
+        <div className={'footer'}>
+          <input
+            autoComplete={'off'}
+            id={'m'}
+            onBlur={this.handleInputBlur}
+            onChange={this.handleInputValueChange}
+            onFocus={this.handleInputFocus}
+            type={'text'}
+            value={this.state.message}
+          />
+          <button onClick={this.sendMessage}>Send</button>
+        </div>
+      </div>
+    );
   }
 
   /**
@@ -167,10 +142,6 @@ class Discussion extends Component {
       div.scrollTop = div.scrollHeight;
     }
   }
-
-  showChangeLogTab() {}
-
-  showDiscussionTab() {}
 
   /**
    * Send message.

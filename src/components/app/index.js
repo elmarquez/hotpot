@@ -1,23 +1,14 @@
 import { h, Component } from 'preact';
 import Client from '../client/index';
 import Launcher from '../launcher/index';
-import postal from 'postal';
 import './styles.scss';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    const config = {
-      callback: () => this.toggleClientVisibility(),
-      channel: 'app',
-      topic: 'toggleClientVisibility'
-    };
     this.state = {
       client: false,
-      launcher: true,
-      subscriptions: {
-        visibility: postal.subscribe(config)
-      }
+      launcher: true
     };
   }
 
@@ -32,17 +23,27 @@ class App extends Component {
    * @returns {VNode<{class: string}>}
    */
   render(props, state) {
+    console.log(props, state);
     return (
-      <div className="app">
-        <Launcher visible={this.state.launcher} />
-        <Client visible={this.state.client} />
+      <div className={'app'}>
+        <Launcher
+          key={'launcher'}
+          toggleVisibility={this.toggleClientVisibility}
+          visible={this.state.launcher}
+        />
+        <Client
+          key={'client'}
+          toggleVisibility={this.toggleClientVisibility}
+          visible={this.state.client}
+        />
       </div>
     );
   }
 
-  toggleClientVisibility(props, state) {
+  toggleClientVisibility = (props, state) => {
+    console.log('toggle client visibility');
     this.setState({ client: !this.state.client });
-  }
+  };
 }
 
 export default App;

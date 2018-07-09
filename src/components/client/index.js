@@ -1,26 +1,23 @@
 import { h, Component } from 'preact';
+import About from '../about';
+import ChangeLog from '../changelog';
+import Discussion from '../discussion';
 import { PropTypes } from 'preact-compat';
-import postal from 'postal';
 import './styles.scss';
 
 class Client extends Component {
   constructor(props, state) {
     super(props);
     this.state = {
-      focus: 'discussion'
+      tab: 'ABOUT'
     };
   }
 
-  closeWindow() {
-    postal.publish({
-      channel: 'app',
-      topic: 'toggleClientVisibility',
-      data: {}
-    });
-  }
-
+  /**
+   * Handle component mounted life cycle event.
+   */
   componentDidMount() {
-    console.info('client component mounted');
+    // console.info('client component mounted');
   }
 
   /**
@@ -30,50 +27,108 @@ class Client extends Component {
    * @returns {VNode<{class: string}>}
    */
   render(props, state) {
+    console.log('render client');
     if (this.props.visible) {
-      return (
-        <div className={'client'}>
-          <div className={'header'}>
-            {this.renderHeader()}
-          </div>
-          <div className={'body'} id={'client-body'}>
-            {this.renderMessages()}
-          </div>
-          <div className={'footer'}>
-            <input
-              autoComplete={'off'}
-              id={'m'}
-              onBlur={this.handleInputBlur}
-              onChange={this.handleInputValueChange}
-              onFocus={this.handleInputFocus}
-              type={'text'}
-              value={this.state.message}
-            />
-            <button onClick={this.sendMessage}>Send</button>
-          </div>
-        </div>
-      );
+      return h('div', { class: 'client' }, [
+        this.renderHeader(),
+        this.renderBody()
+      ]);
     } else {
-      return h('div', { class: 'discussion hidden' }, []);
+      return h('div', { class: 'client hidden' }, []);
     }
   }
 
-  renderHeader() {
-    return (
-      <div className={'tabs'}>
-        <button onClick={this.showDiscussionTab}>Discussion</button>
-        <button onClick={this.showChangeLogTab}>Changes</button>
-        <button onClick={this.closeWindow}>x</button>
-      </div>
-    );
+  /**
+   * Render client body.
+   * @returns {XML}
+   */
+  renderBody() {
+    if (this.state.tab === 'ABOUT') {
+      return (
+        <div className={'body'} id={'client-body'} key={'body'}>
+          <About />
+        </div>
+      );
+    } else if (this.state.tab === 'CHANGE_LOG') {
+      return (
+        <div className={'body'} id={'client-body'} key={'body'}>
+          <ChangeLog />
+        </div>
+      );
+    } else if (this.state.tab === 'DISCUSSION') {
+      return (
+        <div className={'body'} id={'client-body'} key={'body'}>
+          <Discussion />
+        </div>
+      );
+    }
   }
 
-  showChangeLogTab() {}
+  /**
+   * Render header.
+   */
+  renderHeader() {
+    // TODO display buttons for available services
+    // TODO highlight the selected tab
+    return h('div', { class: 'header', key: 'header' }, [
+      h('div', { class: 'tabs', key: 'tabs' }, [
+        h(
+          'button',
+          {
+            class: 'header',
+            key: 't0',
+            onclick: () => {
+              this.setTab('DISCUSSION');
+            }
+          },
+          ['Discussion']
+        ),
+        h(
+          'button',
+          {
+            class: 'header',
+            key: 't1',
+            onclick: () => {
+              this.setTab('CHANGE_LOG');
+            }
+          },
+          ['Changes']
+        ),
+        h(
+          'button',
+          {
+            class: 'header',
+            key: 't2',
+            onclick: () => {
+              this.setTab('ABOUT');
+            }
+          },
+          ['About']
+        )
+      ]),
+      h(
+        'button',
+        {
+          class: 'header',
+          key: 'window-close',
+          onclick: this.props.toggleVisibility
+        },
+        ['x']
+      )
+    ]);
+  }
 
-  showDiscussionTab() {}
+  /**
+   * Set tab.
+   * @param {String} tab Tab identifier
+   */
+  setTab(tab) {
+    this.setState({ tab: tab });
+  }
 }
 
 Client.propTypes = {
+  toggleVisibility: PropTypes.Function,
   visible: PropTypes.boolean
 };
 

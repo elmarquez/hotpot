@@ -28,28 +28,49 @@ class ChangeLog extends Component {
     });
   }
 
-  /**
-   * Render the component.
-   * @param {Object} props Properties
-   * @param {Object} state Component state
-   * @returns {VNode<{class: string}>}
-   */
+  // /**
+  //  * Render the component.
+  //  * @param {Object} props Properties
+  //  * @param {Object} state Component state
+  //  * @returns {VNode<{class: string}>}
+  //  */
+  // render(props, state) {
+  //   if (this.props.visible) {
+  //     return (
+  //       <div className={'client'}>
+  //         <div className={'header'}>
+  //           {this.renderHeader()}
+  //         </div>
+  //         <div className={'body'} id={'client-body'}>
+  //           {this.renderMessages()}
+  //         </div>
+  //         <div className={'footer'}>&nbsp;</div>
+  //       </div>
+  //     );
+  //   } else {
+  //     return h('div', { class: 'client hidden' }, []);
+  //   }
+  // }
+
   render(props, state) {
-    if (this.props.visible) {
-      return (
-        <div className={'client'}>
-          <div className={'header'}>
-            {this.renderHeader()}
-          </div>
-          <div className={'body'} id={'client-body'}>
-            {this.renderMessages()}
-          </div>
-          <div className={'footer'}>&nbsp;</div>
-        </div>
-      );
-    } else {
-      return h('div', { class: 'client hidden' }, []);
-    }
+    return h('div', { class: 'changelog' }, ['Change log panel']);
+  }
+
+  renderChanges() {
+    let changes = this.state.messages.map(m => {
+      return h('div', { class: 'change', id: m.uuid }, [
+        h('div', { class: 'meta' }, [
+          h('span', { class: 'fullname' }, m.fullname),
+          h(
+            'span',
+            { class: 'datetime' },
+            moment(m.createdAt).format('MMM D, h:mm')
+          )
+        ]),
+        h('span', { class: 'body' }, m.message)
+      ]);
+    });
+    return h('div', { class: 'changes' }, changes);
   }
 
   /**

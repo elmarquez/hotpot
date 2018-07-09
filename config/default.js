@@ -5,7 +5,7 @@ module.exports = {
     NAME: 'nabemono',
     URL: 'mongodb://localhost:27017/nabemono',
   },
-  MODULES: ['changelog', 'chat', 'client', 'messaging'],
+  MODULES: ['changelog', 'discussion', 'client'],
   PORT: 3000,
   UPLOAD_SIZE_LIMIT: '50mb'
 };

@@ -1,6 +1,9 @@
 import habitat from 'preact-habitat';
 import Widget from './components/app';
 
+// enable debug mode
+require('preact/debug');
+
 function init() {
   let widget = habitat(Widget);
   widget.render({

@@ -1,23 +1,10 @@
-/**
- * Client application launcher.
- */
 import { h, Component } from 'preact';
 import { PropTypes } from 'preact-compat';
-import postal from 'postal';
 import './styles.scss';
 
 class Launcher extends Component {
   constructor() {
     super();
-    this.state = { visible: true };
-  }
-
-  handleClick() {
-    postal.publish({
-      channel: 'app',
-      topic: 'toggleClientVisibility',
-      data: {}
-    });
   }
 
   /**
@@ -28,16 +15,19 @@ class Launcher extends Component {
    */
   render(props, state) {
     if (this.props.visible) {
-      return h('button', { class: 'launcher', onclick: this.handleClick }, [
-        h('img', { class: 'icon' })
-      ]);
+      return h(
+        'button',
+        { class: 'launcher', onclick: this.props.toggleVisibility },
+        ['Hotpot']
+      );
     } else {
-      return h('button', { class: 'hidden' }, []);
+      return h('button', { class: 'launcher hidden' }, ['Hotpot']);
     }
   }
 }
 
 Launcher.propTypes = {
+  toggleVisibility: PropTypes.Function,
   visible: PropTypes.boolean
 };
 

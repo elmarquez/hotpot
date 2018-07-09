@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Nabemono Test Page</title>
+  <title>Hotpot Test Page</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="description" content="Nabemono test page">
+  <meta name="description" content="Hotpot test page">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link type="text/css" rel="stylesheet" href="/client/bundle.css">
   <style>
     body {
       color: #36454F;
@@ -16,12 +15,13 @@
   </style>
 </head>
 <body>
-  <h1>Nabemono Test Page</h1>
+  <h1>Hotpot Test Page</h1>
   <p>
     The client application should appear in the lower right corner of the page by default.
   </p>
   <div class="nabemono">
-    <script type="text/props">{"position":"bottom right", "user":"/api/user"}</script>
+    <script type="text/props">{"position":"bottom right", "user":"/api/user", "channel":"test"}</script>
+    <link type="text/css" rel="stylesheet" href="/client/bundle.css">
     <script async src="/client/bundle.js" type="text/javascript"></script>
   </div>
 </body>
