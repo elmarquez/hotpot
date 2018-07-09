@@ -69,7 +69,11 @@ class Discussion extends Component {
     console.info('input focus');
   }
 
-  handleInputValueChange() {
+  /**
+   * Handle message input value change.
+   * @param {Event} e Event
+   */
+  handleInputValueChange(e) {
     this.setState({ message: e.target.value });
     // if the last key press was the enter key then send the message
     this.sendMessage();
