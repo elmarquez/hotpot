@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import About from '../about';
 import ChangeLog from '../changelog';
+import CloseIcon from 'feather-icons/dist/icons/x.svg';
 import Discussion from '../discussion';
 import { PropTypes } from 'preact-compat';
 import './styles.scss';
@@ -14,20 +15,12 @@ class Client extends Component {
   }
 
   /**
-   * Handle component mounted life cycle event.
-   */
-  componentDidMount() {
-    // console.info('client component mounted');
-  }
-
-  /**
    * Render the component.
    * @param {Object} props Properties
    * @param {Object} state Component state
    * @returns {VNode<{class: string}>}
    */
   render(props, state) {
-    console.log('render client');
     if (this.props.visible) {
       return h('div', { class: 'client' }, [
         this.renderHeader(),
@@ -75,7 +68,6 @@ class Client extends Component {
         h(
           'button',
           {
-            class: 'header',
             key: 't0',
             onclick: () => {
               this.setTab('DISCUSSION');
@@ -86,7 +78,6 @@ class Client extends Component {
         h(
           'button',
           {
-            class: 'header',
             key: 't1',
             onclick: () => {
               this.setTab('CHANGE_LOG');
@@ -97,7 +88,6 @@ class Client extends Component {
         h(
           'button',
           {
-            class: 'header',
             key: 't2',
             onclick: () => {
               this.setTab('ABOUT');
@@ -106,15 +96,12 @@ class Client extends Component {
           ['About']
         )
       ]),
-      h(
-        'button',
-        {
-          class: 'header',
-          key: 'window-close',
-          onclick: this.props.toggleVisibility
-        },
-        ['x']
-      )
+      h('img', {
+        class: 'close',
+        key: 'window-close',
+        onclick: this.props.toggleVisibility,
+        src: CloseIcon
+      })
     ]);
   }
 

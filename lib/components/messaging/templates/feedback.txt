@@ -1,0 +1,9 @@
+A registered user has submitted feedback about the 725 Squadron site:
+
+Fullname: {fullname}
+Email: {email}
+
+Rating: {rating}
+Comments:
+
+{comments}

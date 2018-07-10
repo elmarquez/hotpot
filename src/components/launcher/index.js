@@ -1,10 +1,11 @@
 import { h, Component } from 'preact';
+import MessageSquare from 'feather-icons/dist/icons/message-square.svg';
 import { PropTypes } from 'preact-compat';
 import './styles.scss';
 
 class Launcher extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   /**
@@ -15,10 +16,10 @@ class Launcher extends Component {
    */
   render(props, state) {
     if (this.props.visible) {
-      return h(
-        'button',
-        { class: 'launcher', onclick: this.props.toggleVisibility },
-        ['Hotpot']
+      return (
+        <button className={'launcher'} onClick={this.props.toggleVisibility}>
+          <img alt={'Hotpot'} src={MessageSquare} />
+        </button>
       );
     } else {
       return h('button', { class: 'launcher hidden' }, ['Hotpot']);

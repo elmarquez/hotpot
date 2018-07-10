@@ -12,10 +12,6 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    console.info('app component mounted');
-  }
-
   /**
    * Render the component.
    * @param {Object} props Properties
@@ -23,7 +19,6 @@ class App extends Component {
    * @returns {VNode<{class: string}>}
    */
   render(props, state) {
-    console.log(props, state);
     return (
       <div className={'app'}>
         <Launcher
@@ -41,7 +36,6 @@ class App extends Component {
   }
 
   toggleClientVisibility = (props, state) => {
-    console.log('toggle client visibility');
     this.setState({ client: !this.state.client });
   };
 }

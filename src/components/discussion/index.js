@@ -26,9 +26,11 @@ class Discussion extends Component {
 
   componentDidMount() {
     // console.info('discussion component mounted');
-    this.connectToServer().then(this.getMessages).catch(err => {
-      console.error(err);
-    });
+    this.connectToServer()
+      .then(this.getMessages)
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   /**
@@ -100,10 +102,10 @@ class Discussion extends Component {
   render(props, state) {
     return (
       <div className={'discussion'} key={'discussion'}>
-        <div className={'body'} id={'client-body'}>
+        <div className={'body'} id={'client-body'} key={'body'}>
           {this.renderMessages()}
         </div>
-        <div className={'footer'}>
+        <div className={'footer'} key={'footer'}>
           <input
             autoComplete={'off'}
             id={'m'}
@@ -125,19 +127,19 @@ class Discussion extends Component {
    */
   renderMessages() {
     let messages = this.state.messages.map(m => {
-      return h('div', { class: 'message', id: m.uuid, title: m.url }, [
-        h('div', { class: 'meta' }, [
-          h('span', { class: 'fullname' }, m.fullname),
+      return h('div', { class: 'message', key: m.uuid, title: m.url }, [
+        h('div', { class: 'meta', key: 'meta' }, [
+          h('span', { class: 'fullname', key: 'fullname' }, m.fullname),
           h(
             'span',
             { class: 'datetime' },
             moment(m.createdAt).format('MMM D, h:mm')
           )
         ]),
-        h('span', { class: 'body' }, m.message)
+        h('span', { class: 'body', key: 'body' }, m.message)
       ]);
     });
-    return h('div', { class: 'messages' }, messages);
+    return h('div', { class: 'messages', key: 'messages' }, messages);
   }
 
   scrollToLatestMessage() {

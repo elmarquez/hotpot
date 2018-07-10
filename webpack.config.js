@@ -6,7 +6,6 @@ const ReplacePlugin = require('replace-bundle-webpack-plugin');
 const path = require('path');
 
 const ENV = process.env.NODE_ENV || 'development';
-
 const CSS_MAPS = ENV !== 'production';
 
 module.exports = {
@@ -14,23 +13,23 @@ module.exports = {
   entry: './index.js',
 
   output: {
-    path: path.resolve(__dirname, 'build'),
-    publicPath: '/',
     filename: 'bundle.js',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    path: path.resolve(__dirname, 'build'),
+    publicPath: '/'
   },
 
   resolve: {
+    alias: {
+      components: path.resolve(__dirname, 'src/components'), // used for tests
+      style: path.resolve(__dirname, 'src/style')
+    },
     extensions: ['.jsx', '.js', '.json', '.scss'],
     modules: [
       path.resolve(__dirname, 'src/lib'),
       path.resolve(__dirname, 'node_modules'),
       'node_modules'
-    ],
-    alias: {
-      components: path.resolve(__dirname, 'src/components'), // used for tests
-      style: path.resolve(__dirname, 'src/style')
-    }
+    ]
   },
 
   module: {
@@ -40,7 +39,13 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader'
+            loader: 'babel-loader',
+            options: {
+              plugins: [],
+              presets: [
+                'es2016'
+              ]
+            }
           }
         ]
       },
@@ -70,6 +75,15 @@ module.exports = {
         ]
       },
       {
+        test: /\.(svg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: { limit: 8192 }
+          }
+        ]
+      },
+      {
         test: /\.(xml|html|txt|md)$/,
         use: [
           {
@@ -78,20 +92,21 @@ module.exports = {
         ]
       },
       {
-        test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
-        use:
-          ENV === 'production'
-            ? 'file?name=[path][name]_[hash:base64:5].[ext]'
-            : 'url'
+        test: /\.(eot|gif|jpe?g|png|ttf|woff2)(\?.*)?$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
       }
     ]
   },
 
   plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(ENV)
-    })
+    new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(ENV)}),
+    new webpack.LoaderOptionsPlugin({debug: true}),
+    new webpack.NoEmitOnErrorsPlugin()
   ].concat(
     ENV === 'production'
       ? [
@@ -108,7 +123,11 @@ module.exports = {
       : []
   ),
 
-  stats: { colors: true },
+  stats: {
+    colors: true,
+    errors: true,
+    warnings: true
+  },
 
   node: {
     global: true,

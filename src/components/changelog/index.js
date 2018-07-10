@@ -12,10 +12,6 @@ class ChangeLog extends Component {
     };
   }
 
-  componentDidMount() {
-    console.info('changelog component mounted');
-  }
-
   /**
    * Get the initial set of change log messages.
    * @returns {Promise}

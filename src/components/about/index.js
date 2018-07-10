@@ -6,10 +6,6 @@ class About extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    console.info('about component mounted');
-  }
-
   /**
    * Render the component.
    * @param {Object} props Properties
