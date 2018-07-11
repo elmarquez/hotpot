@@ -4,13 +4,16 @@ import React from 'react';
 import './styles.scss';
 
 class Launcher extends React.Component {
+  constructor (props) {
+    super(props);
+  }
   /**
    * Render the component.
    * @param {Object} props Properties
    * @param {Object} state State
    * @returns {VNode<{class: string}>}
    */
-  render (props, state) {
+  render () {
     if (this.props.visible) {
       return (
         <button className={'launcher'} onClick={this.props.toggleVisibility}>

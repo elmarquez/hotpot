@@ -2,17 +2,15 @@ import React from 'react';
 import './styles.scss';
 
 class About extends React.Component {
-  constructor (props, state) {
+  constructor (props) {
     super(props);
   }
 
   /**
    * Render the component.
-   * @param {Object} props Properties
-   * @param {Object} state Component state
    * @returns {VNode<{class: string}>}
    */
-  render (props, state) {
+  render () {
     return (<div className={'about'}>About panel</div>);
   }
 }

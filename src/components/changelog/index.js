@@ -5,7 +5,7 @@ import React from 'react';
 import './styles.scss';
 
 class ChangeLog extends React.Component {
-  constructor (props, state) {
+  constructor (props) {
     super(props);
     this.state = {
       messages: []
@@ -26,11 +26,9 @@ class ChangeLog extends React.Component {
 
   /**
    * Render component.
-   * @param props
-   * @param state
    * @returns {XML}
    */
-  render (props, state) {
+  render () {
     return (<div className={'changelog'}>{this.renderChanges()}</div>);
   }
 

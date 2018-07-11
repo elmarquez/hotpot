@@ -7,7 +7,7 @@ import React from 'react';
 import './styles.scss';
 
 class Client extends React.Component {
-  constructor (props, state) {
+  constructor (props) {
     super(props);
     this.state = {
       tab: 'ABOUT'
@@ -16,11 +16,9 @@ class Client extends React.Component {
 
   /**
    * Render the component.
-   * @param {Object} props Properties
-   * @param {Object} state Component state
    * @returns {VNode<{class: string}>}
    */
-  render (props, state) {
+  render () {
     if (this.props.visible) {
       return (
         <div className={'client'}>
@@ -68,9 +66,9 @@ class Client extends React.Component {
     return (
       <div className={'header'}>
         <div className={'tabs'}>
-          <button onClick={this.setTab('DISCUSSION')}>Discussion</button>
-          <button onClick={this.setTab('CHANGE_LOG')}>Changes</button>
-          <button onClick={this.setTab('ABOUT')}>About</button>
+          <button onClick={() => this.setTab('DISCUSSION')}>Discussion</button>
+          <button onClick={() => this.setTab('CHANGE_LOG')}>Changes</button>
+          <button onClick={() => this.setTab('ABOUT')}>About</button>
         </div>
         <img className={'close'} onClick={this.props.toggleVisibility} src={CloseIcon} />
       </div>

@@ -14,20 +14,18 @@ class App extends React.Component {
 
   /**
    * Render the component.
-   * @param {Object} props Properties
-   * @param {Object} state State
    * @returns {VNode<{class: string}>}
    */
-  render (props, state) {
+  render () {
     return (
       <div className={'app'}>
         <Launcher toggleVisibility={this.toggleClientVisibility} visible={this.state.launcher} />
-        {/*<Client toggleVisibility={this.toggleClientVisibility} visible={this.state.client} />*/}
+        <Client toggleVisibility={this.toggleClientVisibility} visible={this.state.client} />
       </div>
     );
   }
 
-  toggleClientVisibility = (props, state) => {
+  toggleClientVisibility = () => {
     this.setState({ client: !this.state.client });
   };
 }

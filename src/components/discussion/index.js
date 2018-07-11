@@ -7,7 +7,7 @@ import React from 'react';
 import './styles.scss';
 
 class Discussion extends React.Component {
-  constructor (props, state) {
+  constructor (props) {
     super(props);
     this.state = {
       fullname: 'John Doe',
@@ -97,11 +97,9 @@ class Discussion extends React.Component {
 
   /**
    * Render the component.
-   * @param {Object} props Properties
-   * @param {Object} state Component state
    * @returns {VNode<{class: string}>}
    */
-  render (props, state) {
+  render () {
     return (
       <div className={'discussion'} key={'discussion'}>
         <div className={'body'} id={'client-body'} key={'body'}>
