@@ -1,11 +1,12 @@
 {
   "plugins": [
+    "syntax-trailing-function-commas",
     "transform-class-properties",
-    ["transform-decorators-legacy"],
-    ["transform-react-jsx", { "pragma": "h" }]
+    "transform-decorators-legacy",
+    "transform-react-jsx"
   ],
   "presets": [
-    "env", "preact"
+    "es2015", "react"
   ],
   "sourceMaps": true
 }

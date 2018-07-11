@@ -1,23 +1,17 @@
-import habitat from 'preact-habitat';
-import Widget from './components/app';
+import App from './components/app';
+import ReactHabitat from 'react-habitat';
 
-// enable debug mode
-require('preact/debug');
-
-function init() {
-  let widget = habitat(Widget);
-  widget.render({
-    inline: true,
-    clean: false
-  });
+class HabitatApp extends ReactHabitat.Bootstrapper {
+  constructor () {
+    super();
+    const containerBuilder = new ReactHabitat.ContainerBuilder();
+    containerBuilder.register(App).as('Hotpot');
+    this.setContainer(containerBuilder.build());
+  }
 }
 
-// in development, set up HMR:
-if (module.hot) {
-  require('preact/devtools'); // enables React DevTools, be careful on IE
-  module.hot.accept('./components/app', function() {
-    requestAnimationFrame(init);
-  });
-}
+const instance = new HabitatApp();
 
-init();
+window.updateHabitat = instance.update.bind(instance);
+
+export default instance;

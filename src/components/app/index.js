@@ -1,10 +1,10 @@
-import { h, Component } from 'preact';
 import Client from '../client/index';
 import Launcher from '../launcher/index';
+import React from 'react';
 import './styles.scss';
 
-class App extends Component {
-  constructor(props) {
+class App extends React.Component {
+  constructor (props) {
     super(props);
     this.state = {
       client: false,
@@ -18,19 +18,11 @@ class App extends Component {
    * @param {Object} state State
    * @returns {VNode<{class: string}>}
    */
-  render(props, state) {
+  render (props, state) {
     return (
       <div className={'app'}>
-        <Launcher
-          key={'launcher'}
-          toggleVisibility={this.toggleClientVisibility}
-          visible={this.state.launcher}
-        />
-        <Client
-          key={'client'}
-          toggleVisibility={this.toggleClientVisibility}
-          visible={this.state.client}
-        />
+        <Launcher toggleVisibility={this.toggleClientVisibility} visible={this.state.launcher} />
+        {/*<Client toggleVisibility={this.toggleClientVisibility} visible={this.state.client} />*/}
       </div>
     );
   }

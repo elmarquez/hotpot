@@ -1,11 +1,11 @@
-import { h, Component } from 'preact';
-import { PropTypes } from 'preact-compat';
 import axios from 'axios';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 import './styles.scss';
 
-class ChangeLog extends Component {
-  constructor(props, state) {
+class ChangeLog extends React.Component {
+  constructor (props, state) {
     super(props);
     this.state = {
       messages: []
@@ -16,7 +16,7 @@ class ChangeLog extends Component {
    * Get the initial set of change log messages.
    * @returns {Promise}
    */
-  getChangeLog() {
+  getChangeLog () {
     let self = this;
     return axios.get('/changes').then(res => {
       self.setState({ messages: res.data });
@@ -24,73 +24,32 @@ class ChangeLog extends Component {
     });
   }
 
-  // /**
-  //  * Render the component.
-  //  * @param {Object} props Properties
-  //  * @param {Object} state Component state
-  //  * @returns {VNode<{class: string}>}
-  //  */
-  // render(props, state) {
-  //   if (this.props.visible) {
-  //     return (
-  //       <div className={'client'}>
-  //         <div className={'header'}>
-  //           {this.renderHeader()}
-  //         </div>
-  //         <div className={'body'} id={'client-body'}>
-  //           {this.renderMessages()}
-  //         </div>
-  //         <div className={'footer'}>&nbsp;</div>
-  //       </div>
-  //     );
-  //   } else {
-  //     return h('div', { class: 'client hidden' }, []);
-  //   }
-  // }
-
-  render(props, state) {
-    return h('div', { class: 'changelog' }, ['Change log panel']);
-  }
-
-  renderChanges() {
-    let changes = this.state.messages.map(m => {
-      return h('div', { class: 'change', id: m.uuid }, [
-        h('div', { class: 'meta' }, [
-          h('span', { class: 'fullname' }, m.fullname),
-          h(
-            'span',
-            { class: 'datetime' },
-            moment(m.createdAt).format('MMM D, h:mm')
-          )
-        ]),
-        h('span', { class: 'body' }, m.message)
-      ]);
-    });
-    return h('div', { class: 'changes' }, changes);
-  }
-
   /**
-   * Render messages.
-   * @returns {JSX.Element}
+   * Render component.
+   * @param props
+   * @param state
+   * @returns {XML}
    */
-  renderMessages() {
-    let changes = this.state.messages.map(m => {
-      return h('div', { class: 'change', id: m.uuid }, [
-        h('div', { class: 'meta' }, [
-          h('span', { class: 'fullname' }, m.fullname),
-          h(
-            'span',
-            { class: 'datetime' },
-            moment(m.createdAt).format('MMM D, h:mm')
-          )
-        ]),
-        h('span', { class: 'body' }, m.message)
-      ]);
-    });
-    return h('div', { class: 'changes' }, changes);
+  render (props, state) {
+    return (<div className={'changelog'}>{this.renderChanges()}</div>);
   }
 
-  scrollToLatestMessage() {
+  renderChanges () {
+    let changes = this.state.messages.map((m, i) => {
+      return (
+        <div className={'change'} id={m.uuid} key={i}>
+          <div className={'meta'}>
+            <span className={'fullname'}>{m.fullname}</span>
+            <span className={'datetime'}>{moment(m.createdAt).format('MMM D, h:mm')}</span>
+          </div>
+          <div className={'body'}>{m.message}</div>
+        </div>
+      );
+    });
+    return (<div className={'changes'}>{changes}</div>);
+  }
+
+  scrollToLatestMessage () {
     let div = document.getElementById('client-body');
     if (div) {
       div.scrollTop = div.scrollHeight;
@@ -99,7 +58,7 @@ class ChangeLog extends Component {
 }
 
 ChangeLog.propTypes = {
-  visible: PropTypes.boolean
+  visible: PropTypes.bool
 };
 
 export default ChangeLog;

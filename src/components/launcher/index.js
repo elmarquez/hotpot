@@ -1,20 +1,16 @@
-import { h, Component } from 'preact';
 import MessageSquare from 'feather-icons/dist/icons/message-square.svg';
-import { PropTypes } from 'preact-compat';
+import PropTypes from 'prop-types';
+import React from 'react';
 import './styles.scss';
 
-class Launcher extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+class Launcher extends React.Component {
   /**
    * Render the component.
    * @param {Object} props Properties
    * @param {Object} state State
    * @returns {VNode<{class: string}>}
    */
-  render(props, state) {
+  render (props, state) {
     if (this.props.visible) {
       return (
         <button className={'launcher'} onClick={this.props.toggleVisibility}>
@@ -22,14 +18,14 @@ class Launcher extends Component {
         </button>
       );
     } else {
-      return h('button', { class: 'launcher hidden' }, ['Hotpot']);
+      return (<button className={'launcher hidden'}>Hotpot</button>);
     }
   }
 }
 
 Launcher.propTypes = {
-  toggleVisibility: PropTypes.Function,
-  visible: PropTypes.boolean
+  toggleVisibility: PropTypes.Func,
+  visible: PropTypes.bool
 };
 
 export default Launcher;

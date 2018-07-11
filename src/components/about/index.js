@@ -1,8 +1,8 @@
-import { h, Component } from 'preact';
+import React from 'react';
 import './styles.scss';
 
-class About extends Component {
-  constructor(props, state) {
+class About extends React.Component {
+  constructor (props, state) {
     super(props);
   }
 
@@ -12,8 +12,8 @@ class About extends Component {
    * @param {Object} state Component state
    * @returns {VNode<{class: string}>}
    */
-  render(props, state) {
-    return h('div', { class: 'about' }, ['About panel']);
+  render (props, state) {
+    return (<div className={'about'}>About panel</div>);
   }
 }
 

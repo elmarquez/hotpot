@@ -1,13 +1,13 @@
-import { h, Component } from 'preact';
 import About from '../about';
 import ChangeLog from '../changelog';
 import CloseIcon from 'feather-icons/dist/icons/x.svg';
 import Discussion from '../discussion';
-import { PropTypes } from 'preact-compat';
+import PropTypes from 'prop-types';
+import React from 'react';
 import './styles.scss';
 
-class Client extends Component {
-  constructor(props, state) {
+class Client extends React.Component {
+  constructor (props, state) {
     super(props);
     this.state = {
       tab: 'ABOUT'
@@ -20,14 +20,16 @@ class Client extends Component {
    * @param {Object} state Component state
    * @returns {VNode<{class: string}>}
    */
-  render(props, state) {
+  render (props, state) {
     if (this.props.visible) {
-      return h('div', { class: 'client' }, [
-        this.renderHeader(),
-        this.renderBody()
-      ]);
+      return (
+        <div className={'client'}>
+          {this.renderHeader()}
+          {this.renderBody()}
+        </div>
+      );
     } else {
-      return h('div', { class: 'client hidden' }, []);
+      return (<div className={'client hidden'}></div>);
     }
   }
 
@@ -35,7 +37,7 @@ class Client extends Component {
    * Render client body.
    * @returns {XML}
    */
-  renderBody() {
+  renderBody () {
     if (this.state.tab === 'ABOUT') {
       return (
         <div className={'body'} id={'client-body'} key={'body'}>
@@ -60,63 +62,33 @@ class Client extends Component {
   /**
    * Render header.
    */
-  renderHeader() {
+  renderHeader () {
     // TODO display buttons for available services
     // TODO highlight the selected tab
-    return h('div', { class: 'header', key: 'header' }, [
-      h('div', { class: 'tabs', key: 'tabs' }, [
-        h(
-          'button',
-          {
-            key: 't0',
-            onclick: () => {
-              this.setTab('DISCUSSION');
-            }
-          },
-          ['Discussion']
-        ),
-        h(
-          'button',
-          {
-            key: 't1',
-            onclick: () => {
-              this.setTab('CHANGE_LOG');
-            }
-          },
-          ['Changes']
-        ),
-        h(
-          'button',
-          {
-            key: 't2',
-            onclick: () => {
-              this.setTab('ABOUT');
-            }
-          },
-          ['About']
-        )
-      ]),
-      h('img', {
-        class: 'close',
-        key: 'window-close',
-        onclick: this.props.toggleVisibility,
-        src: CloseIcon
-      })
-    ]);
+    return (
+      <div className={'header'}>
+        <div className={'tabs'}>
+          <button onClick={this.setTab('DISCUSSION')}>Discussion</button>
+          <button onClick={this.setTab('CHANGE_LOG')}>Changes</button>
+          <button onClick={this.setTab('ABOUT')}>About</button>
+        </div>
+        <img className={'close'} onClick={this.props.toggleVisibility} src={CloseIcon} />
+      </div>
+    );
   }
 
   /**
    * Set tab.
    * @param {String} tab Tab identifier
    */
-  setTab(tab) {
+  setTab (tab) {
     this.setState({ tab: tab });
   }
 }
 
 Client.propTypes = {
-  toggleVisibility: PropTypes.Function,
-  visible: PropTypes.boolean
+  toggleVisibility: PropTypes.Func,
+  visible: PropTypes.bool
 };
 
 export default Client;
