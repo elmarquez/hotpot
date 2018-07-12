@@ -6,15 +6,9 @@
     "build": "parcel build src/index.js --out-dir build --out-file bundle.js --public-url client",
     "build:dev": "NODE_ENV=development parcel build src/index.js --out-dir build --out-file bundle.js --public-url client",
     "lint": "eslint ./src/ || true",
-    "precommit": "npm run lint",
     "serve": "node index.js",
     "test": "npm run lint && npm run -s test:karma",
-    "test:karma": "karma start test/karma.conf.js --single-run",
-    "watch": "NODE_ENV=development parcel watch src/index.js --out-dir build --out-file bundle.js --public-url client",
-    "webpack-build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack -p --progress",
-    "webpack-dev": "cross-env NODE_ENV=development ./node_modules/.bin/webpack-dev-server --inline --hot --progress",
-    "webpack-prestart": "npm run build",
-    "webpack-start": "serve . -s -c 1"
+    "watch": "NODE_ENV=development parcel watch src/index.js --out-dir build --out-file bundle.js --public-url client"
   },
   "private": true,
   "author": "Davis Marques <dmarques@unimelb.edu.au>",

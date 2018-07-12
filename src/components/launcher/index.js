@@ -4,9 +4,6 @@ import React from 'react';
 import './styles.scss';
 
 class Launcher extends React.Component {
-  constructor (props) {
-    super(props);
-  }
   /**
    * Render the component.
    * @param {Object} props Properties

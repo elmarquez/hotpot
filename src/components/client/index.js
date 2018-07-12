@@ -9,10 +9,15 @@ import CloseIcon from './close.svg';
 import './styles.scss';
 
 class Client extends React.Component {
+  TABS = {
+    ABOUT: 'ABOUT',
+    EVENTS: 'EVENTS'
+  };
+
   constructor (props) {
     super(props);
     this.state = {
-      tab: 'EVENTS'
+      tab: this.TABS.EVENTS
     };
   }
 
@@ -38,9 +43,9 @@ class Client extends React.Component {
    * @returns {XML}
    */
   renderBody () {
-    if (this.state.tab === 'ABOUT') {
+    if (this.state.tab === this.TABS.ABOUT) {
       return (<About />);
-    } else if (this.state.tab === 'EVENTS') {
+    } else if (this.state.tab === this.TABS.EVENTS) {
       return (<Events />);
     }
   }
@@ -49,8 +54,6 @@ class Client extends React.Component {
    * Render header.
    */
   renderHeader () {
-    // TODO display buttons for available services
-    // TODO highlight the selected tab
     return (
       <div className={'header'}>
         <div className={'row agent'}>
@@ -63,8 +66,6 @@ class Client extends React.Component {
         <div className={'row hello'}>
           Thanks for visiting! We’re away right now but if you have a suggestion,
           feel free to leave a message and we&apos;ll get back to you soon!
-          {/*<span onClick={() => this.setTab('EVENTS')}>Events</span>*/}
-          {/*<span onClick={() => this.setTab('ABOUT')}>About</span>*/}
         </div>
       </div>
     );
@@ -75,7 +76,7 @@ class Client extends React.Component {
    * @param {String} tab Tab identifier
    */
   setTab (tab) {
-    this.setState({ tab: tab });
+    this.setState({tab: tab});
   }
 }
 

@@ -17,7 +17,7 @@
   z-index: 1010;
   -webkit-font-smoothing: subpixel-antialiased;
 
-  .body {
+  >.body {
     align-items: stretch;
     display: flex;
     flex-direction: column;
@@ -26,7 +26,7 @@
     justify-content: space-between;
   }
 
-  .footer {
+  >.footer {
     align-items: stretch;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
@@ -42,7 +42,7 @@
     }
   }
 
-  .header {
+  >.header {
     align-items: stretch;
     background-color: dodgerblue;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -123,16 +123,6 @@
       margin: 8px;
     }
   }
-
-  .panel {
-    align-items: stretch;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 2;
-    font-size: small;
-    justify-content: space-between;
-    overflow: scroll;
-  }
 }
 
 .client.hidden {
@@ -152,16 +142,4 @@
 
 .scrollable {
   overflow: scroll;
-}
-
-.tabs {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-}
-.tabs button {
-  outline: none;
-}
-
-.tab {
 }

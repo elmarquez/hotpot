@@ -6,9 +6,9 @@ import moment from 'moment';
 import Promise from 'bluebird';
 import PropTypes from 'prop-types';
 import React from 'react';
-// import { yeast } from 'yeast';
 
 import {camera} from 'react-icons-kit/entypo/camera';
+import {megaphone} from 'react-icons-kit/entypo/megaphone';
 import './styles.scss';
 
 /**
@@ -23,7 +23,6 @@ class Events extends React.Component {
       fullname: 'John Doe',
       message: '',
       messages: [],
-      // random: yeast(),
       user: 'c8fdb983-88f5-4eab-85e5-754c6653690c'
     };
     // force function binding to class scope
@@ -34,7 +33,7 @@ class Events extends React.Component {
     this.handleInputFocus = this.handleInputFocus.bind(this);
     this.handleInputValueChange = this.handleInputValueChange.bind(this);
     this.handleMessageReceived = this.handleMessageReceived.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
+    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
   componentDidMount () {
@@ -92,7 +91,7 @@ class Events extends React.Component {
    * @returns {Promise} Canvas with screenshot
    */
   getScreenshot () {
-    html2canvas(document.body).then(function(canvas) {
+    html2canvas(document.body).then((canvas) => {
       document.body.appendChild(canvas);
     });
   }
@@ -122,9 +121,7 @@ class Events extends React.Component {
    * @param {Event} e Event
    */
   handleInputValueChange (e) {
-    this.setState({ message: e.target.value });
-    // if the last key press was the enter key then send the message
-    this.sendMessage();
+    this.setState({message: e.target.value});
   }
 
   /**
@@ -140,6 +137,24 @@ class Events extends React.Component {
   }
 
   /**
+   * Handle message submit.
+   * @param {Event} event Event
+   */
+  handleMessageSubmit (event) {
+    event.preventDefault();
+    if (this.state.message !== '') {
+      let discussion = {
+        fullname: this.state.fullname,
+        message: this.state.message,
+        user: this.state.user,
+        url: window.location.href
+      };
+      this.state.socket.emit('discussion', discussion);
+      this.setState({message: ''});
+    }
+  }
+
+  /**
    * Render the component.
    * @returns {VNode<{class: string}>}
    */
@@ -152,45 +167,48 @@ class Events extends React.Component {
     );
   }
 
-  renderAnswer (m) {
-    return (<div className={'event answer'}>Answer</div>);
+  renderAnswer (m, key) {
+    return (<div className={'event answer'} key={key}>Answer</div>);
   }
 
-  renderChange (m) {
-    return (<div className={'event change'}>Change</div>);
+  renderChange (m, key) {
+    return (<div className={'event change'} key={key}>Change</div>);
   }
 
   /**
    * Render events.
    * @returns {JSX.Element}
    */
-  renderEvents() {
-    let events = this.state.events.map(m => {
-      return (
-        <div className={'event'} key={m.uuid}>
-          <div className={'meta'}>
-            <span className={'fullname'}>{m.fullname}</span>
-            <span className={'datetime'}>{moment(m.createdAt).format('MMM D, h:mm')}</span>
-          </div>
-          <div className={'body'}>{m.message}</div>
-        </div>
-      );
+  renderEvents () {
+    let events = this.state.events.map((m, i) => {
+      if (m.type && m.type === 'ANSWER') {
+        return this.renderAnswer(m, i);
+      } else if (m.type && m.type === 'CHANGE') {
+        return this.renderChange(m, i);
+      } else if (m.type && m.type === 'MESSAGE') {
+        return this.renderMessage(m, i);
+      } else if (m.type && m.type === 'QUESTION') {
+        return this.renderQuestion(m, i);
+      }
     });
     return (<div className={'events scrollable'}>{events}</div>);
   }
 
+  /**
+   * Render footer.
+   * @returns {*}
+   */
   renderFooter () {
     return (
       <div className={'footer'}>
-        <input autoComplete={'off'}
-               id={'m'}
-               onBlur={this.handleInputBlur}
-               onChange={this.handleInputValueChange}
-               onFocus={this.handleInputFocus}
-               placeholder={'Leave a message'}
-               type={'text'}
-               value={this.state.message} />
-        <Icon icon={camera} onClick={this.getScreenshot} title={'Attach a screenshot'} />
+        <form onSubmit={this.handleMessageSubmit}>
+          <input autoComplete={'off'}
+                 onChange={this.handleInputValueChange}
+                 placeholder={'Leave a message'}
+                 type={'text'}
+                 value={this.state.message} />
+        </form>
+        <Icon className={'control screenshot'} icon={camera} onClick={this.getScreenshot} title={'Attach a screenshot'} />
       </div>
     );
   }
@@ -200,42 +218,40 @@ class Events extends React.Component {
    * @param {Object} m Message
    * @returns {XML}
    */
-  renderMessage (m) {
+  renderMessage (m, key) {
     return (
-      <div className={'event message'} key={m.uuid} title={m.url}>
+      <div className={'event message'} key={key}>
         <div className={'meta'}>
           <span className={'fullname'}>{m.fullname}</span>
           <span className={'datetime'}>{moment(m.createdAt).format('MMM D, h:mm')}</span>
         </div>
-        <div className={'body'}>{m.message}</div>
+        <p className={'content'}>{m.message}</p>
       </div>
     );
   }
 
-  renderQuestion (m) {
-    return (<div className={'event question'}>Message</div>);
+  /**
+   * Render question.
+   * @param {Object} data Data
+   * @param {String} key Element key
+   * @returns {XML}
+   */
+  renderQuestion (data, key) {
+    return (<div className={'event question'} key={key}>
+      <div className={'header'}>
+        <span className={'title'}>Question</span>
+      </div>
+      <div className={'content'}>{data.message}</div>
+    </div>);
   }
 
+  /**
+   * Scroll the panel to the last event.
+   */
   scrollToLastEvent () {
     var div = document.getElementById('client-body');
     if (div) {
       div.scrollTop = div.scrollHeight;
-    }
-  }
-
-  /**
-   * Send message.
-   */
-  sendMessage () {
-    if (this.state.message !== '') {
-      let discussion = {
-        fullname: this.state.fullname,
-        message: this.state.message,
-        user: this.state.user,
-        url: window.location.href
-      };
-      this.state.socket.emit('discussion', discussion);
-      this.setState({ message: '' });
     }
   }
 }
