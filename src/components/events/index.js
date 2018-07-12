@@ -1,3 +1,4 @@
+import AriaModal from 'react-aria-modal';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import { Icon } from 'react-icons-kit';
@@ -23,6 +24,8 @@ class Events extends React.Component {
       fullname: 'John Doe',
       message: '',
       messages: [],
+      modalActive: false,
+      screenshot: null,
       user: 'c8fdb983-88f5-4eab-85e5-754c6653690c'
     };
     // force function binding to class scope
@@ -34,6 +37,8 @@ class Events extends React.Component {
     this.handleInputValueChange = this.handleInputValueChange.bind(this);
     this.handleMessageReceived = this.handleMessageReceived.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+    this.showModal = this.showModal.bind(this);
   }
 
   componentDidMount () {
@@ -91,8 +96,9 @@ class Events extends React.Component {
    * @returns {Promise} Canvas with screenshot
    */
   getScreenshot () {
+    let self = this;
     html2canvas(document.body).then((canvas) => {
-      document.body.appendChild(canvas);
+      self.setState({screenshot: canvas});
     });
   }
 
@@ -154,30 +160,48 @@ class Events extends React.Component {
     }
   }
 
+  hideModal () {
+    this.setState({screenshot: null, showModal: false});
+  }
+
   /**
    * Render the component.
    * @returns {VNode<{class: string}>}
    */
   render () {
+    let modal = this.state.screenshot !== null ? this.renderScreenshotModal() : '';
     return (
       <div className={'body events'}>
         {this.renderEvents()}
         {this.renderFooter()}
+        {modal}
       </div>
     );
   }
 
-  renderAnswer (m, key) {
+  /**
+   * Render answer event.
+   * @param {Object} data Data
+   * @param {String} key Key
+   * @returns {XML}
+   */
+  renderAnswer (data, key) {
     return (<div className={'event answer'} key={key}>Answer</div>);
   }
 
-  renderChange (m, key) {
+  /**
+   * Render change event.
+   * @param {Object} data Data
+   * @param {String} key Key
+   * @returns {XML}
+   */
+  renderChange (data, key) {
     return (<div className={'event change'} key={key}>Change</div>);
   }
 
   /**
    * Render events.
-   * @returns {JSX.Element}
+   * @returns {XML}
    */
   renderEvents () {
     let events = this.state.events.map((m, i) => {
@@ -196,7 +220,7 @@ class Events extends React.Component {
 
   /**
    * Render footer.
-   * @returns {*}
+   * @returns {XML}
    */
   renderFooter () {
     return (
@@ -246,6 +270,43 @@ class Events extends React.Component {
   }
 
   /**
+   * Render screenshot modal dialog.
+   * @returns {XML}
+   */
+  renderScreenshotModal () {
+    let self = this;
+    setTimeout(() => {
+      document.getElementById('screenshot').appendChild(self.state.screenshot);
+    }, 50);
+    return (
+      <AriaModal onExit={this.hideModal} titleText={'Screenshot'}>
+        <div className="modal screenshot">
+          <div className="modal-body">
+            <div className={'preview'}>
+              Screenshot goes here
+              <div id="screenshot"></div>
+            </div>
+            <div className={'sidebar'}>
+              <div className={'tools'}>Painting and annotation tools</div>
+              <div className={'inset'}>
+                <div className={'comment'}>Text feedback here</div>
+              </div>
+              <div className={'controls'}>
+                <button id="demo-one-deactivate" onClick={this.hideModal}>
+                  Cancel
+                </button>
+                <button id="demo-one-deactivate" onClick={this.hideModal}>
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </AriaModal>
+    )
+  }
+
+  /**
    * Scroll the panel to the last event.
    */
   scrollToLastEvent () {
@@ -253,6 +314,10 @@ class Events extends React.Component {
     if (div) {
       div.scrollTop = div.scrollHeight;
     }
+  }
+
+  showModal () {
+    this.setState({showModal: true});
   }
 }
 

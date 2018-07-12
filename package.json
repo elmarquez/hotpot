@@ -61,6 +61,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-animate-on-change": "^2.1.1",
+    "react-aria-modal": "^2.12.2",
     "react-dom": "^16.4.1",
     "react-feather": "^1.1.1",
     "react-habitat": "^1.0.1",

@@ -100,3 +100,43 @@
   }
 
 }
+
+.modal.screenshot {
+  align-items: stretch;
+  background-color: white;
+  bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  left: 64px;
+  position: fixed;
+  right: 64px;
+  top: 64px;
+
+  .modal-body {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 2;
+
+    .preview {
+      background-color: rgb(30,30,30);
+      flex-grow: 2;
+    }
+    .sidebar {
+      align-items: stretch;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      max-width: 240px;
+      width: 240px;
+
+      .inset {
+        margin: 16px;
+      }
+      .tools {
+        background-color: lightgray;
+      }
+    }
+  }
+
+}
