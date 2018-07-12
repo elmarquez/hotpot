@@ -1,0 +1,7 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+mongoimport --db hotpot --collection answers --drop --jsonArray --file "${BASH_SOURCE%/*}/../../test/fixtures/answers.json"
+mongoimport --db hotpot --collection changes --drop --jsonArray --file "${BASH_SOURCE%/*}/../../test/fixtures/changes.json"
+mongoimport --db hotpot --collection messages --drop --jsonArray --file "${BASH_SOURCE%/*}/../../test/fixtures/messages.json"
+mongoimport --db hotpot --collection questions --drop --jsonArray --file "${BASH_SOURCE%/*}/../../test/fixtures/questions.json"

@@ -1,4 +1,4 @@
-import MessageSquare from 'feather-icons/dist/icons/message-square.svg';
+import MessageSquare from './message-square.svg';
 import PropTypes from 'prop-types';
 import React from 'react';
 import './styles.scss';
@@ -27,7 +27,7 @@ class Launcher extends React.Component {
 }
 
 Launcher.propTypes = {
-  toggleVisibility: PropTypes.Func,
+  toggleVisibility: PropTypes.func,
   visible: PropTypes.bool
 };
 

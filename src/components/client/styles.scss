@@ -1,8 +1,7 @@
 .client {
   align-items: stretch;
   background-color: ghostwhite;
-  //border: 1px solid darkgray;
-  border-radius: 3px;
+  border-radius: 6px;
   bottom: 90px;
   box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
   display: flex;
@@ -10,14 +9,13 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: small;
-  justify-content: space-between;
   height: 600px;
-  overflow: hidden;
+  justify-content: space-between;
   position: fixed;
   right: 20px;
   width: 320px;
   z-index: 1010;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: subpixel-antialiased;
 
   .body {
     align-items: stretch;
@@ -26,7 +24,6 @@
     flex-grow: 2;
     font-size: small;
     justify-content: space-between;
-    overflow: scroll;
   }
 
   .footer {
@@ -46,50 +43,95 @@
   }
 
   .header {
-    align-items: center;
-    background-color: white;
+    align-items: stretch;
+    background-color: dodgerblue;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    color: white;
     display: flex;
-    flex-direction: row;
-    height: 30px;
+    flex-direction: column;
+    font-size: small;
+    font-weight: 300;
+    height: 130px;
     justify-content: space-between;
-    min-height: 30px;
-    padding: 2px 4px;
+    max-height: 130px;
+    min-height: 130px;
+
+    .row.agent {
+      align-items: center;
+      height: 32px;
+      justify-content: space-between;
+
+      img.close {
+        margin-right: 8px;
+      }
+
+      .avatar {
+        align-items: center;
+        background-color: white;
+        border: 3px solid dodgerblue;
+        border-radius: 46px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 72px;
+        min-width: 72px;
+        //transform: translateX(4px) translateY(-0px);
+        height: 72px;
+        width: 72px;
+        z-index: 100;
+      }
+      .avatar img {
+        height: 70%;
+        width: 70%;
+      }
+
+      .title {
+        flex-grow: 2;
+        font-size: large;
+        font-weight: 600;
+        margin-left: 8px;
+        text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    .controls {
+      align-items: center;
+      font-size: small;
+    }
+
+    .row.hello {
+      margin: 24px 16px 16px 16px;
+    }
+
+    button {
+      background-color: rgba(0,0,0,0.1);
+      border: 1px solid transparent;
+      color: white;
+      margin: 2px;
+      padding: 8px;
+    }
 
     img.close {
       height: 16px;
       width: 16px;
     }
+
+    .row {
+      justify-content: space-between;
+      margin: 8px;
+    }
   }
 
-  .messages {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  .messages .message {
+  .panel {
     align-items: stretch;
-    background-color: ghostwhite;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     display: flex;
     flex-direction: column;
-    padding: 5px 10px;
-  }
-  .messages .message:hover {
-    background-color: white;
-    //transform: scale(1.01);
-    //transition: all .05s ease-in-out;
-  }
-  .messages .message:last-child {
-    border-bottom: none;
-  }
-  .messages .message .meta {
-    color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    flex-direction: row;
-    font-size: x-small;
+    flex-grow: 2;
+    font-size: small;
     justify-content: space-between;
-    padding-bottom: 4px;
+    overflow: scroll;
   }
 }
 
@@ -98,6 +140,18 @@
 }
 .client.visible {
   transition: all 0.5s ease-in-out;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.row.hidden {
+  display: none;
+}
+
+.scrollable {
+  overflow: scroll;
 }
 
 .tabs {

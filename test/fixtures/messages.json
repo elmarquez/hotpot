@@ -1,3 +1,46 @@
 [
-
+  {
+    "uuid": "01b3137a-8595-4fd3-be7f-934fdfa87638",
+    "type": "MESSAGE",
+    "user": "a7dff6ac-af9d-4d8d-a0a1-eaa9f5d8c681",
+    "date": "2018-07-05T14:48:00.000Z",
+    "fullname": "John Doe",
+    "message": "hey, how are you going? This is looking great. Can you please change the background colour to something slightly lighter?",
+    "parent": null,
+    "url": "https://725sqn-dev.eresearch.unimelb.edu.au/#/schedules/daily/2018-07-06",
+    "tags": []
+  },
+  {
+    "uuid": "49718a5b-f77c-4e61-991b-d8fc416783a7",
+    "type": "MESSAGE",
+    "user": "25ed7763-4ec9-4c55-ac65-a940bd3c759d",
+    "date": "2018-07-05T14:55:00.000Z",
+    "fullname": "Glenn Jayaputera",
+    "message": "hey, how are you going? This is looking great. Can you please change the background colour to something slightly lighter?",
+    "parent": null,
+    "url": "https://725sqn-dev.eresearch.unimelb.edu.au/#/schedules/daily/2018-07-06",
+    "tags": []
+  },
+  {
+    "uuid": "2ce45d5f-0ab2-4a71-aa9d-af62b524ffaf",
+    "type": "MESSAGE",
+    "user": "3b09cac0-fd7e-4472-8233-cc26f65ee2c4",
+    "date": "2018-07-05T15:10:00.000Z",
+    "fullname": "Davis Marques",
+    "message": "hey, how are you going? This is looking great. Can you please change the background colour to something slightly lighter?",
+    "parent": null,
+    "url": "https://725sqn-dev.eresearch.unimelb.edu.au/#/schedules/daily/2018-07-06",
+    "tags": []
+  },
+  {
+    "uuid": "6aa95393-054a-4309-8d71-c4150e7a9b5b",
+    "type": "MESSAGE",
+    "user": "2ccef2d0-9020-4c5d-ab01-2997ae76bd95",
+    "date": "2018-07-06T10:23:00.000Z",
+    "fullname": "Sulmam Sarwar",
+    "message": "hey, how are you going? This is looking great. Can you please change the background colour to something slightly lighter?",
+    "parent": null,
+    "url": "https://725sqn-dev.eresearch.unimelb.edu.au/#/schedules/daily/2018-07-06",
+    "tags": []
+  }
 ]

@@ -1,17 +1,17 @@
 // Load application secrets
-const secrets = require('/etc/dstg/725sqn/secrets.json');
+const secrets = require('/etc/hotpot/secrets.json');
 
 const config = {
   DATABASE: {
     HOST: 'localhost',
     PORT: '27017',
-    NAME: 'nabemono',
-    URL: 'mongodb://localhost:27017/nabemono',
+    NAME: 'hotpot',
+    URL: 'mongodb://localhost:27017/hotpot',
   },
-  EMAIL_FROM: 'server@725sqn-dev.eresearch.unimelb.edu.au',
+  EMAIL_FROM: 'dmarques@unimelb.edu.au',
   FEEDBACK_DISTRIBUTION_LIST: ['dmarques@unimelb.edu.au'],
   MAIL_SERVICE: 'sendgrid',
-  MODULES: ['changelog', 'discussion', 'client'],
+  MODULES: ['events', 'client'],
   PORT: 3000,
   SECRETS: secrets,
   UPLOAD_SIZE_LIMIT: '50mb'
