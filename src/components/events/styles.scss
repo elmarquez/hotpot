@@ -43,15 +43,8 @@
   }
 
   .event {
-    background-color: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 4px;
     display: block;
-    padding: 8px;
     margin: 8px;
-  }
-  .event:hover {
-    background-color: white;
   }
   .event:first-child {
     margin-top: 16px;
@@ -59,22 +52,103 @@
   .event:last-child {
     margin-bottom: 16px;
   }
-  .event .meta {
-    color: rgba(0, 0, 0, 0.8);
+
+  .event .avatar {
+    background-color: #1b82e7;
+    border-radius: 16px;
+    height: 32px;
+    margin-right: 8px;
+    min-height: 32px;
+    min-width: 32px;
+    overflow: hidden;
+    width: 32px;
+  }
+
+  .event.card, .event .card {
+    background-color: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+    display: block;
+  }
+
+  .event .row {
     display: flex;
     flex-direction: row;
-    font-size: x-small;
-    justify-content: space-between;
-    padding-bottom: 4px;
   }
 
   .event.answer {
     margin-left: 32px;
+
+    p {
+      margin: 8px;
+    }
+    .header {
+      font-size: x-small;
+      margin: 8px;
+      text-transform: uppercase;
+    }
   }
 
-  .event.change {
+  .event.changes {
     background-color: transparent;
     border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .event.commit {}
+
+  .event.commit .content {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .event.commit .content .date {
+    white-space: nowrap;
+  }
+  .event.commit .content .icon {
+    margin-right: 8px;
+  }
+  .event.commit .content .message {
+    flex-grow: 2;
+  }
+  .event.commit .header {
+    display: flex;
+    flex-direction: row;
+    font-size: x-small;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .event.commit .row {
+    align-items: flex-start;
+    font-size: x-small;
+    justify-content: space-between;
+
+    .date {
+      white-space: nowrap;
+    }
+    .icon {
+      margin-right: 8px;
+      width: 16px;
+    }
+    .message {
+      flex-grow: 2;
+      margin-right: 8px;
+    }
+  }
+
+  .event.message {
+    .avatar {
+      margin-top: 8px;
+    }
+    .card {
+      flex-grow: 2;
+
+      p {
+        flex-grow: 2;
+        margin: 8px;
+      }
+    }
   }
 
   .event.question {
@@ -82,13 +156,14 @@
     border: 1px solid lightblue;
   }
   .event.question .content {
-    padding: 8px 0;
+    padding: 0 8px 8px 8px;
   }
   .event.question .header {
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 8px 8px 0 8px;
   }
   .event.question .header .icon {
     opacity: 0.5;
@@ -146,9 +221,10 @@
         align-items: center;
         display: flex;
         flex-direction: row;
+        margin: 2px;
 
         button {
-          border: 1px solid lightgrey;
+          border: 1px solid rgba(0,0,0,0.2);
           color: white;
           flex-grow: 2;
           font-weight: 600;
@@ -159,7 +235,7 @@
           background-color: transparent;
         }
         button.send {
-          background-color: dodgerblue;
+          background-color: #1e90ff;
         }
       }
 
@@ -173,7 +249,7 @@
 
         .tool {
           align-items: center;
-          border: 1px solid darkgray;
+          border: 1px solid rgba(0,0,0,0.2);
           box-sizing: border-box;
           display: flex;
           flex-direction: column;

@@ -1,9 +1,12 @@
+import AnswerItem from './answer-item';
 import AriaModal from 'react-aria-modal';
 import axios from 'axios';
+import ChangeItem from './change-item';
+import ChangeList from './change-list';
 import html2canvas from 'html2canvas';
 import { Icon } from 'react-icons-kit';
 import io from 'socket.io-client';
-import moment from 'moment';
+import MessageItem from './message-item';
 import Promise from 'bluebird';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,7 +15,6 @@ import {camera} from 'react-icons-kit/entypo/camera';
 import {edit} from 'react-icons-kit/entypo/edit';
 import {eraser} from 'react-icons-kit/entypo/eraser';
 import {landscape} from 'react-icons-kit/entypo/landscape';
-import {megaphone} from 'react-icons-kit/entypo/megaphone';
 import {text} from 'react-icons-kit/entypo/text';
 import './styles.scss';
 
@@ -184,23 +186,13 @@ class Events extends React.Component {
   }
 
   /**
-   * Render answer event.
-   * @param {Object} data Data
-   * @param {String} key Key
-   * @returns {XML}
-   */
-  renderAnswer (data, key) {
-    return (<div className={'event answer'} key={key}>Answer</div>);
-  }
-
-  /**
    * Render change event.
    * @param {Object} data Data
    * @param {String} key Key
    * @returns {XML}
    */
   renderChange (data, key) {
-    return (<div className={'event change'} key={key}>Change</div>);
+    return (<ChangeItem data={data} key={key} />);
   }
 
   /**
@@ -210,11 +202,13 @@ class Events extends React.Component {
   renderEvents () {
     let events = this.state.events.map((m, i) => {
       if (m.type && m.type === 'ANSWER') {
-        return this.renderAnswer(m, i);
+        return (<AnswerItem data={m} key={i} />);
       } else if (m.type && m.type === 'CHANGE') {
         return this.renderChange(m, i);
+      } else if (m.type && m.type === 'CHANGE_LIST') {
+        return (<ChangeList changes={m} expanded={false} />);
       } else if (m.type && m.type === 'MESSAGE') {
-        return this.renderMessage(m, i);
+        return (<MessageItem data={m} key={i} />);
       } else if (m.type && m.type === 'QUESTION') {
         return this.renderQuestion(m, i);
       }
@@ -242,23 +236,6 @@ class Events extends React.Component {
   }
 
   /**
-   * Render message.
-   * @param {Object} m Message
-   * @returns {XML}
-   */
-  renderMessage (m, key) {
-    return (
-      <div className={'event message'} key={key}>
-        <div className={'meta'}>
-          <span className={'fullname'}>{m.fullname}</span>
-          <span className={'datetime'}>{moment(m.createdAt).format('MMM D, h:mm')}</span>
-        </div>
-        <p className={'content'}>{m.message}</p>
-      </div>
-    );
-  }
-
-  /**
    * Render question.
    * @param {Object} data Data
    * @param {String} key Element key
@@ -281,15 +258,11 @@ class Events extends React.Component {
     let self = this;
     setTimeout(() => {
       let el = document.getElementById('screenshot-preview');
-      let canvas = self.state.screenshot;
       // rescale the image to fit the preview area
+      let canvas = self.state.screenshot;
       // let scaleFactor = el.clientWidth / canvas.width;
-      // canvas.clientWidth = el.clientWidth;
-      // canvas.clientHeight = Math.floor(canvas.height * scaleFactor);
-      // canvas.width = el.clientWidth;
+      // canvas.width = Math.floor(el.clientWidth * scaleFactor);
       // canvas.height = Math.floor(canvas.height * scaleFactor);
-      // canvas.style.width = el.clientWidth;
-      // canvas.style.height = Math.floor(canvas.height * scaleFactor);
       el.appendChild(canvas);
     }, 50);
     return (

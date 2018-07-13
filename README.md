@@ -1,9 +1,11 @@
-NABEMONO -- Product Discussion and Cocreation
-=============================================
+Hotpot -- Product Discussion and Cocreation
+===========================================
 
-Nabemono is a private communication service to support product
-development. It provides a basic product chat and change log. Other
-features can be plugged into the service.
+Let's cook together! Hotpot is a private communication service to
+support product discussion and co-creation. It provides private chat, 
+change announcement, question/answer and notifications. Its
+implementation is intended to ease integration with existing services,
+or services under development.
 
 
 ## Dependencies
@@ -13,25 +15,22 @@ runtime dependencies:
 
     npm install
 
-Copy the application secrets file to /etc/nabemono
+Copy the application secrets file to /etc/hotpot
 
 
 ## Building and Running the Application
 
-Build the browser client application:
+Build a production release of the browser client application:
 
     npm run build
+    
+Build a development release of the client application:
+
+    npm run build:dev    
     
 Run the production application:
 
     npm run serve
-
-
-## Development
-
-Run a local test server:
-
-    npm run dev
 
 
 ## Testing
@@ -43,12 +42,41 @@ Execute unit and functional tests:
 Test reports are written to ./target
 
 
-## Using Nabe in an Existing Application
+## Integrating Hotpot into an Existing Application
 
-In the application HTML, load the application client:
+Hotpot is a self-contained service that can be integrated into your 
+existing application be inserting the following minimum HTML: 
 
-    <script src="/nabemono/client.js"></script>
+    <div data-component="Hotpot"
+         data-props-channel="test"
+         data-props-title="Hotpot"
+         data-props-user="/api/user"></div>
+    <link type="text/css" rel="stylesheet" href="/client/bundle.css">
+    <script src="/client/bundle.js" type="text/javascript"></script>
 
-In the application user interface, add a div with ID='nabemono'
+This block has three distinct parts: a div with configuration options
+where Hotpot will attach itself. A link to the Hotpot stylesheet, and 
+a script tag to load the Hotpot client application. Configure the link
+and script tags to point to the deployed location of your hotpot
+application.
 
-    <div id='nabemono'></div>
+To reduce the integration effort required, we suggest that you configure
+your web server to inject the required HTML into the page where you
+want Hotpot to appear, rather than putting the HTML directly into your
+application.
+
+In nginx, you might achieve this by doing something like the following:
+
+    location / {
+        sub_filter '</body>'  '<div data-component="Hotpot"
+                                    data-props-channel="test"
+                                    data-props-title="Hotpot"
+                                    data-props-user="/api/user"></div>
+                               <link type="text/css" rel="stylesheet" href="/client/bundle.css">
+                               <script src="/client/bundle.js" type="text/javascript"></script>
+                               </body>';
+        sub_filter_once on;
+    }
+
+In this example, we're replacing the closing </body> tag with the 
+configuration block and then appending a new closing </body> tag.
