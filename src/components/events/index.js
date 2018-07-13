@@ -9,7 +9,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {camera} from 'react-icons-kit/entypo/camera';
+import {edit} from 'react-icons-kit/entypo/edit';
+import {eraser} from 'react-icons-kit/entypo/eraser';
+import {landscape} from 'react-icons-kit/entypo/landscape';
 import {megaphone} from 'react-icons-kit/entypo/megaphone';
+import {text} from 'react-icons-kit/entypo/text';
 import './styles.scss';
 
 /**
@@ -227,10 +231,10 @@ class Events extends React.Component {
       <div className={'footer'}>
         <form onSubmit={this.handleMessageSubmit}>
           <input autoComplete={'off'}
-                 onChange={this.handleInputValueChange}
-                 placeholder={'Leave a message'}
-                 type={'text'}
-                 value={this.state.message} />
+            onChange={this.handleInputValueChange}
+            placeholder={'Leave a message'}
+            type={'text'}
+            value={this.state.message} />
         </form>
         <Icon className={'control screenshot'} icon={camera} onClick={this.getScreenshot} title={'Attach a screenshot'} />
       </div>
@@ -276,34 +280,42 @@ class Events extends React.Component {
   renderScreenshotModal () {
     let self = this;
     setTimeout(() => {
-      document.getElementById('screenshot').appendChild(self.state.screenshot);
+      let el = document.getElementById('screenshot-preview');
+      let canvas = self.state.screenshot;
+      // rescale the image to fit the preview area
+      // let scaleFactor = el.clientWidth / canvas.width;
+      // canvas.clientWidth = el.clientWidth;
+      // canvas.clientHeight = Math.floor(canvas.height * scaleFactor);
+      // canvas.width = el.clientWidth;
+      // canvas.height = Math.floor(canvas.height * scaleFactor);
+      // canvas.style.width = el.clientWidth;
+      // canvas.style.height = Math.floor(canvas.height * scaleFactor);
+      el.appendChild(canvas);
     }, 50);
     return (
       <AriaModal onExit={this.hideModal} titleText={'Screenshot'}>
-        <div className="modal screenshot">
+        <div className="hotpot-modal screenshot">
           <div className="modal-body">
-            <div className={'preview'}>
-              Screenshot goes here
-              <div id="screenshot"></div>
-            </div>
+            <div className={'preview'} id="screenshot-preview"></div>
             <div className={'sidebar'}>
-              <div className={'tools'}>Painting and annotation tools</div>
+              <div className={'tools'}>
+                <Icon className={'tool'} icon={edit} size={32} title={'Line'} />
+                <Icon className={'tool'} icon={eraser} size={32} title={'Erase'} />
+                <Icon className={'tool'} icon={text} size={32} title={'Text'} />
+                <Icon className={'tool'} icon={landscape} size={32} title={'Rectangle'} />
+              </div>
               <div className={'inset'}>
                 <div className={'comment'}>Text feedback here</div>
               </div>
               <div className={'controls'}>
-                <button id="demo-one-deactivate" onClick={this.hideModal}>
-                  Cancel
-                </button>
-                <button id="demo-one-deactivate" onClick={this.hideModal}>
-                  Send
-                </button>
+                <button className={'cancel'} onClick={this.hideModal}>Cancel</button>
+                <button className={'send'} onClick={this.hideModal}>Send</button>
               </div>
             </div>
           </div>
         </div>
       </AriaModal>
-    )
+    );
   }
 
   /**

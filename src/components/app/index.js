@@ -18,7 +18,7 @@ class App extends React.Component {
    */
   render () {
     return (
-      <div className={'app'}>
+      <div className={'hotpot app'}>
         <Launcher toggleVisibility={this.toggleClientVisibility} visible={this.state.launcher} />
         <Client toggleVisibility={this.toggleClientVisibility} visible={this.state.client} />
       </div>

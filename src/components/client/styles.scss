@@ -1,4 +1,4 @@
-.client {
+.hotpot.app .client {
   align-items: stretch;
   background-color: ghostwhite;
   border-radius: 6px;
@@ -125,21 +125,21 @@
   }
 }
 
-.client.hidden {
+.hotpot.app .client.hidden {
   display: none;
 }
-.client.visible {
+.hotpot.app .client.visible {
   transition: all 0.5s ease-in-out;
 }
 
-.row {
+.hotpot.app .row {
   display: flex;
   flex-direction: row;
 }
-.row.hidden {
+.hotpot.app .row.hidden {
   display: none;
 }
 
-.scrollable {
+.hotpot.app .scrollable {
   overflow: scroll;
 }
