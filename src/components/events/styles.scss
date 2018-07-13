@@ -125,15 +125,18 @@
     justify-content: space-between;
 
     .date {
+      min-height: 16px;
       white-space: nowrap;
     }
     .icon {
       margin-right: 8px;
+      min-height: 16px;
       width: 16px;
     }
     .message {
       flex-grow: 2;
       margin-right: 8px;
+      min-height: 16px;
     }
   }
 

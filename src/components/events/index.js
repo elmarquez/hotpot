@@ -9,6 +9,7 @@ import io from 'socket.io-client';
 import MessageItem from './message-item';
 import Promise from 'bluebird';
 import PropTypes from 'prop-types';
+import QuestionItem from './question-item';
 import React from 'react';
 
 import {camera} from 'react-icons-kit/entypo/camera';
@@ -43,6 +44,11 @@ class Events extends React.Component {
     this.handleInputValueChange = this.handleInputValueChange.bind(this);
     this.handleMessageReceived = this.handleMessageReceived.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+    this.handleSocketConnect = this.handleSocketConnect.bind(this);
+    this.handleSocketConnectError = this.handleSocketConnectError.bind(this);
+    this.handleSocketDisconnect = this.handleSocketDisconnect.bind(this);
+    this.handleSocketError = this.handleSocketError.bind(this);
+    this.handleSocketReconnect = this.handleSocketReconnect.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
   }
@@ -73,9 +79,14 @@ class Events extends React.Component {
     let self = this;
     return new Promise(function (resolve, reject) {
       try {
-        let socket = io();
+        let options = {};
+        let socket = io('/', options);
+        socket.on('connect', self.handleSocketConnect);
+        socket.on('connect_error', self.handleSocketConnectError);
+        // socket.on('disconnect', self.handleSocketDisconnect);
+        // socket.on('discussion', self.handleMessageReceived);
+        // socket.on('reconnect', self.handleSocketReconnect);
         self.setState({ socket: socket });
-        socket.on('discussion', self.handleMessageReceived);
         // TODO handle disconnect by changing the client state
         resolve(socket);
       } catch (err) {
@@ -116,6 +127,7 @@ class Events extends React.Component {
     let self = this;
     let url = this.props.user || '/user';
     return axios.get(url).then(res => {
+      console.log('user profile', res.data);
       self.setState({ user: res.data });
     });
   }
@@ -166,6 +178,26 @@ class Events extends React.Component {
     }
   }
 
+  handleSocketConnect (e) {
+    console.log(e);
+  }
+
+  handleSocketConnectError (e) {
+    console.log(e);
+  }
+
+  handleSocketDisconnect (e) {
+    console.log(e);
+  }
+
+  handleSocketError (e) {
+    console.log(e);
+  }
+
+  handleSocketReconnect (e) {
+    console.log(e);
+  }
+
   hideModal () {
     this.setState({screenshot: null, showModal: false});
   }
@@ -186,16 +218,6 @@ class Events extends React.Component {
   }
 
   /**
-   * Render change event.
-   * @param {Object} data Data
-   * @param {String} key Key
-   * @returns {XML}
-   */
-  renderChange (data, key) {
-    return (<ChangeItem data={data} key={key} />);
-  }
-
-  /**
    * Render events.
    * @returns {XML}
    */
@@ -204,13 +226,13 @@ class Events extends React.Component {
       if (m.type && m.type === 'ANSWER') {
         return (<AnswerItem data={m} key={i} />);
       } else if (m.type && m.type === 'CHANGE') {
-        return this.renderChange(m, i);
+        return (<ChangeItem data={m} key={i} />);
       } else if (m.type && m.type === 'CHANGE_LIST') {
         return (<ChangeList changes={m} expanded={false} />);
       } else if (m.type && m.type === 'MESSAGE') {
         return (<MessageItem data={m} key={i} />);
       } else if (m.type && m.type === 'QUESTION') {
-        return this.renderQuestion(m, i);
+        return (<QuestionItem data={m} key={i} />);
       }
     });
     return (<div className={'events scrollable'}>{events}</div>);
@@ -236,21 +258,6 @@ class Events extends React.Component {
   }
 
   /**
-   * Render question.
-   * @param {Object} data Data
-   * @param {String} key Element key
-   * @returns {XML}
-   */
-  renderQuestion (data, key) {
-    return (<div className={'event question'} key={key}>
-      <div className={'header'}>
-        <span className={'title'}>Question</span>
-      </div>
-      <div className={'content'}>{data.message}</div>
-    </div>);
-  }
-
-  /**
    * Render screenshot modal dialog.
    * @returns {XML}
    */
@@ -272,10 +279,10 @@ class Events extends React.Component {
             <div className={'preview'} id="screenshot-preview"></div>
             <div className={'sidebar'}>
               <div className={'tools'}>
-                <Icon className={'tool'} icon={edit} size={32} title={'Line'} />
-                <Icon className={'tool'} icon={eraser} size={32} title={'Erase'} />
-                <Icon className={'tool'} icon={text} size={32} title={'Text'} />
-                <Icon className={'tool'} icon={landscape} size={32} title={'Rectangle'} />
+                <Icon className={'tool'} icon={edit} size={24} title={'Line'} />
+                <Icon className={'tool'} icon={eraser} size={24} title={'Erase'} />
+                <Icon className={'tool'} icon={text} size={24} title={'Text'} />
+                <Icon className={'tool'} icon={landscape} size={24} title={'Rectangle'} />
               </div>
               <div className={'inset'}>
                 <div className={'comment'}>Text feedback here</div>
@@ -295,7 +302,7 @@ class Events extends React.Component {
    * Scroll the panel to the last event.
    */
   scrollToLastEvent () {
-    var div = document.getElementById('client-body');
+    let div = document.getElementById('client-body');
     if (div) {
       div.scrollTop = div.scrollHeight;
     }
