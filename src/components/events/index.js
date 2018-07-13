@@ -17,23 +17,25 @@ import {edit} from 'react-icons-kit/entypo/edit';
 import {eraser} from 'react-icons-kit/entypo/eraser';
 import {landscape} from 'react-icons-kit/entypo/landscape';
 import {text} from 'react-icons-kit/entypo/text';
+
 import './styles.scss';
 
 /**
  * Events viewer displays a single, time-ordered list of user comments, change
- * events, questions
+ * events, questions.
  */
 class Events extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
       events: [],
-      fullname: 'John Doe',
-      message: '',
-      messages: [],
       modalActive: false,
       screenshot: null,
-      user: 'c8fdb983-88f5-4eab-85e5-754c6653690c'
+      user: {
+        avatar: '/example',
+        fullname: 'John Doe',
+        uuid: 'c8fdb983-88f5-4eab-85e5-754c6653690c'
+      }
     };
     // force function binding to class scope
     this.getEvents = this.getEvents.bind(this);
@@ -42,7 +44,7 @@ class Events extends React.Component {
     this.handleInputBlur = this.handleInputBlur.bind(this);
     this.handleInputFocus = this.handleInputFocus.bind(this);
     this.handleInputValueChange = this.handleInputValueChange.bind(this);
-    this.handleMessageReceived = this.handleMessageReceived.bind(this);
+    this.handleEventReceived = this.handleEventReceived.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
     this.handleSocketConnect = this.handleSocketConnect.bind(this);
     this.handleSocketConnectError = this.handleSocketConnectError.bind(this);
@@ -53,21 +55,18 @@ class Events extends React.Component {
     this.showModal = this.showModal.bind(this);
   }
 
+  /**
+   * Handle component mounted life cycle event.
+   */
   componentDidMount () {
+    // FIXME this should be executed before the component mounts ... maybe run it in the application component???
     let self = this;
     self.connectToServer();
-    // .then(self.getUserProfile)
-    // .then(self.getEvents)
-    // .catch(err => {
-    //   throw new Error(err);
-    //   // console.error(err);
-    // });
     self
       .getUserProfile()
       .then(self.getEvents)
       .catch(err => {
         throw new Error(err);
-        // console.error(err);
       });
   }
 
@@ -81,13 +80,14 @@ class Events extends React.Component {
       try {
         let options = {};
         let socket = io('/', options);
+        // TODO add handlers for all socket events
+        // TODO handle disconnect by changing the client state
         socket.on('connect', self.handleSocketConnect);
         socket.on('connect_error', self.handleSocketConnectError);
-        // socket.on('disconnect', self.handleSocketDisconnect);
-        // socket.on('discussion', self.handleMessageReceived);
-        // socket.on('reconnect', self.handleSocketReconnect);
+        socket.on('disconnect', self.handleSocketDisconnect);
+        socket.on('events', self.handleEventReceived);
+        socket.on('reconnect', self.handleSocketReconnect);
         self.setState({ socket: socket });
-        // TODO handle disconnect by changing the client state
         resolve(socket);
       } catch (err) {
         reject(err);
@@ -152,11 +152,11 @@ class Events extends React.Component {
    * Handle message received event.
    * @param {Object} msg Data
    */
-  handleMessageReceived (msg) {
+  handleEventReceived (msg) {
     // console.log('received message', msg);
-    let messages = this.state.messages.slice();
-    messages.push(msg);
-    this.setState({ messages: messages });
+    let events = this.state.events.slice();
+    events.push(msg);
+    this.setState({events: events});
     this.scrollToLastEvent();
   }
 
@@ -167,35 +167,35 @@ class Events extends React.Component {
   handleMessageSubmit (event) {
     event.preventDefault();
     if (this.state.message !== '') {
-      let discussion = {
-        fullname: this.state.fullname,
+      let msg = {
+        fullname: this.state.user.fullname,
         message: this.state.message,
-        user: this.state.user,
+        user: this.state.user.uuid,
         url: window.location.href
       };
-      this.state.socket.emit('discussion', discussion);
+      this.state.socket.emit('discussion', msg);
       this.setState({message: ''});
     }
   }
 
-  handleSocketConnect (e) {
-    console.log(e);
+  handleSocketConnect () {
+    console.log('socket connected');
   }
 
   handleSocketConnectError (e) {
-    console.log(e);
+    console.log('socket connect error', e);
   }
 
   handleSocketDisconnect (e) {
-    console.log(e);
+    console.log('socket disconnected');
   }
 
   handleSocketError (e) {
-    console.log(e);
+    console.log('socket error', e);
   }
 
   handleSocketReconnect (e) {
-    console.log(e);
+    console.log('socket reconnect');
   }
 
   hideModal () {
