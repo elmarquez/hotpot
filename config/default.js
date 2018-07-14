@@ -14,7 +14,8 @@ const config = {
   MODULES: ['events', 'client'],
   PORT: 3000,
   SECRETS: secrets,
-  UPLOAD_SIZE_LIMIT: '50mb'
+  UPLOAD_SIZE_LIMIT: '50mb',
+  URL_BASE: '/test'
 };
 
 module.exports = config;

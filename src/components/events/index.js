@@ -1,13 +1,10 @@
 import AnswerItem from './answer-item';
 import AriaModal from 'react-aria-modal';
-import axios from 'axios';
 import ChangeItem from './change-item';
 import ChangeList from './change-list';
 import html2canvas from 'html2canvas';
 import { Icon } from 'react-icons-kit';
-import io from 'socket.io-client';
 import MessageItem from './message-item';
-import Promise from 'bluebird';
 import PropTypes from 'prop-types';
 import QuestionItem from './question-item';
 import React from 'react';
@@ -28,83 +25,18 @@ class Events extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      events: [],
+      message: '',
       modalActive: false,
-      screenshot: null,
-      user: {
-        avatar: '/example',
-        fullname: 'John Doe',
-        uuid: 'c8fdb983-88f5-4eab-85e5-754c6653690c'
-      }
+      screenshot: null
     };
     // force function binding to class scope
-    this.getEvents = this.getEvents.bind(this);
     this.getScreenshot = this.getScreenshot.bind(this);
-    this.getUserProfile = this.getUserProfile.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
     this.handleInputFocus = this.handleInputFocus.bind(this);
     this.handleInputValueChange = this.handleInputValueChange.bind(this);
-    this.handleEventReceived = this.handleEventReceived.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
-    this.handleSocketConnect = this.handleSocketConnect.bind(this);
-    this.handleSocketConnectError = this.handleSocketConnectError.bind(this);
-    this.handleSocketDisconnect = this.handleSocketDisconnect.bind(this);
-    this.handleSocketError = this.handleSocketError.bind(this);
-    this.handleSocketReconnect = this.handleSocketReconnect.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
-  }
-
-  /**
-   * Handle component mounted life cycle event.
-   */
-  componentDidMount () {
-    // FIXME this should be executed before the component mounts ... maybe run it in the application component???
-    let self = this;
-    self.connectToServer();
-    self
-      .getUserProfile()
-      .then(self.getEvents)
-      .catch(err => {
-        throw new Error(err);
-      });
-  }
-
-  /**
-   * Connect to the chat server.
-   * @returns {Promise}
-   */
-  connectToServer () {
-    let self = this;
-    return new Promise(function (resolve, reject) {
-      try {
-        let options = {};
-        let socket = io('/', options);
-        // TODO add handlers for all socket events
-        // TODO handle disconnect by changing the client state
-        socket.on('connect', self.handleSocketConnect);
-        socket.on('connect_error', self.handleSocketConnectError);
-        socket.on('disconnect', self.handleSocketDisconnect);
-        socket.on('events', self.handleEventReceived);
-        socket.on('reconnect', self.handleSocketReconnect);
-        self.setState({ socket: socket });
-        resolve(socket);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
-  /**
-   * Get the initial set of chat messages.
-   * @returns {Promise}
-   */
-  getEvents () {
-    let self = this;
-    return axios.get('/events').then(res => {
-      self.setState({ events: res.data });
-      this.scrollToLastEvent();
-    });
   }
 
   /**
@@ -116,19 +48,6 @@ class Events extends React.Component {
     let self = this;
     html2canvas(document.body).then((canvas) => {
       self.setState({screenshot: canvas});
-    });
-  }
-
-  /**
-   * Get user profile.
-   * @returns {Promise.<TResult>}
-   */
-  getUserProfile () {
-    let self = this;
-    let url = this.props.user || '/user';
-    return axios.get(url).then(res => {
-      console.log('user profile', res.data);
-      self.setState({ user: res.data });
     });
   }
 
@@ -168,34 +87,14 @@ class Events extends React.Component {
     event.preventDefault();
     if (this.state.message !== '') {
       let msg = {
-        fullname: this.state.user.fullname,
+        fullname: this.props.user.fullname,
         message: this.state.message,
-        user: this.state.user.uuid,
+        user: this.props.user.uuid,
         url: window.location.href
       };
-      this.state.socket.emit('discussion', msg);
+      this.props.socket.emit('discussion', msg);
       this.setState({message: ''});
     }
-  }
-
-  handleSocketConnect () {
-    console.log('socket connected');
-  }
-
-  handleSocketConnectError (e) {
-    console.log('socket connect error', e);
-  }
-
-  handleSocketDisconnect (e) {
-    console.log('socket disconnected');
-  }
-
-  handleSocketError (e) {
-    console.log('socket error', e);
-  }
-
-  handleSocketReconnect (e) {
-    console.log('socket reconnect');
   }
 
   hideModal () {
@@ -208,6 +107,11 @@ class Events extends React.Component {
    */
   render () {
     let modal = this.state.screenshot !== null ? this.renderScreenshotModal() : '';
+    let self = this;
+    // FIXME terrible approach
+    setTimeout(() => {
+      self.scrollToLastEvent();
+    });
     return (
       <div className={'body events'}>
         {this.renderEvents()}
@@ -222,17 +126,17 @@ class Events extends React.Component {
    * @returns {XML}
    */
   renderEvents () {
-    let events = this.state.events.map((m, i) => {
+    let events = this.props.events.map((m, i) => {
       if (m.type && m.type === 'ANSWER') {
-        return (<AnswerItem data={m} key={i} />);
+        return (<AnswerItem data={m} key={m.uuid} />);
       } else if (m.type && m.type === 'CHANGE') {
-        return (<ChangeItem data={m} key={i} />);
+        return (<ChangeItem data={m} key={m.uuid} />);
       } else if (m.type && m.type === 'CHANGE_LIST') {
-        return (<ChangeList changes={m} expanded={false} />);
+        return (<ChangeList changes={m} expanded={false} key={m.uuid} />);
       } else if (m.type && m.type === 'MESSAGE') {
-        return (<MessageItem data={m} key={i} />);
+        return (<MessageItem data={m} key={m.uuid} />);
       } else if (m.type && m.type === 'QUESTION') {
-        return (<QuestionItem data={m} key={i} />);
+        return (<QuestionItem data={m} key={m.uuid} />);
       }
     });
     return (<div className={'events scrollable'}>{events}</div>);
@@ -302,9 +206,10 @@ class Events extends React.Component {
    * Scroll the panel to the last event.
    */
   scrollToLastEvent () {
-    let div = document.getElementById('client-body');
-    if (div) {
-      div.scrollTop = div.scrollHeight;
+    let els = document.querySelectorAll('.hotpot.app .client .event');
+    let lastEvent = els[els.length - 1];
+    if (lastEvent) {
+      lastEvent.scrollIntoView();
     }
   }
 
@@ -314,7 +219,9 @@ class Events extends React.Component {
 }
 
 Events.propTypes = {
-  user: PropTypes.string,
+  events: PropTypes.array,
+  socket: PropTypes.object,
+  user: PropTypes.object,
   visible: PropTypes.bool
 };
 

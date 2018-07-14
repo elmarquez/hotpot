@@ -1,10 +1,9 @@
 import About from '../about';
+import AgentIcon from './origami.svg';
+import CloseIcon from './close.svg';
 import Events from '../events';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import AgentIcon from './origami.svg';
-import CloseIcon from './close.svg';
 
 import './styles.scss';
 
@@ -46,7 +45,7 @@ class Client extends React.Component {
     if (this.state.tab === this.TABS.ABOUT) {
       return (<About />);
     } else if (this.state.tab === this.TABS.EVENTS) {
-      return (<Events />);
+      return (<Events events={this.props.events} socket={this.props.socket} user={this.props.user} />);
     }
   }
 
@@ -54,13 +53,14 @@ class Client extends React.Component {
    * Render header.
    */
   renderHeader () {
+    let title = this.props.title || 'Product Chat';
     return (
       <div className={'header'}>
         <div className={'row agent'}>
           <div className={'avatar'}>
             <img alt={'Product Developer'} src={AgentIcon} />
           </div>
-          <div className={'title'}>Product Chat</div>
+          <div className={'title'}>{title}</div>
           <img className={'close'} onClick={this.props.toggleVisibility} src={CloseIcon} />
         </div>
         <div className={'row hello'}>
@@ -81,7 +81,11 @@ class Client extends React.Component {
 }
 
 Client.propTypes = {
+  events: PropTypes.array,
+  title: PropTypes.string,
+  socket: PropTypes.object,
   toggleVisibility: PropTypes.func,
+  user: PropTypes.object,
   visible: PropTypes.bool
 };
 
