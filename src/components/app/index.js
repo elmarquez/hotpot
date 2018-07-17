@@ -2,6 +2,7 @@
 /* eslint no-restricted-syntax: 0 */
 import axios from 'axios/index';
 import Client from '../client/index';
+import merge from 'deepmerge';
 import io from 'socket.io-client';
 import Launcher from '../launcher/index';
 import React from 'react';
@@ -32,7 +33,14 @@ class App extends React.Component {
       let attrs = props.proxy.attributes;
       for (let i = 0; i < attrs.length; i++) {
         let attr = attrs.item(i);
-        if (attr.localName.indexOf('data-props-') === 0) {
+        if (attr.localName === 'data-props') {
+          try {
+            let data = JSON.parse(attr.value);
+            state = merge(state, data);
+          } catch (err) {
+            console.error('failed to parse habitat configuration');
+          }
+        } else if (attr.localName.indexOf('data-prop-') === 0) {
           let property = attr.localName.substring(11);
           state[property] = attr.value;
         }
@@ -117,7 +125,7 @@ class App extends React.Component {
    */
   getUserProfile () {
     let self = this;
-    let url = this.props.user || '/user';
+    let url = '/user';
     return axios.get(url).then(res => {
       console.log('user profile', res.data);
       self.setState({user: res.data});
@@ -207,6 +215,7 @@ class App extends React.Component {
     return (
       <Launcher
         toggleVisibility={this.toggleClientVisibility}
+        title={this.state.title}
         visible={this.state.launcher}/>
     );
   }
@@ -221,7 +230,7 @@ App.propTypes = {
   channel: PropTypes.string,
   proxy: PropTypes.object,
   title: PropTypes.string,
-  user: PropTypes.string
+  user: PropTypes.object
 };
 
 export default App;

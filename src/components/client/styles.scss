@@ -2,7 +2,6 @@
   align-items: stretch;
   background-color: ghostwhite;
   border-radius: 6px;
-  bottom: 90px;
   box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
   display: flex;
   flex-direction: column;
@@ -12,7 +11,6 @@
   height: 600px;
   justify-content: space-between;
   position: fixed;
-  right: 20px;
   width: 320px;
   z-index: 1010;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -123,13 +121,6 @@
       margin: 8px;
     }
   }
-}
-
-.hotpot.app .client.hidden {
-  display: none;
-}
-.hotpot.app .client.visible {
-  transition: all 0.5s ease-in-out;
 }
 
 .hotpot.app .row {

@@ -2,6 +2,7 @@ import About from '../about';
 import AgentIcon from './origami.svg';
 import CloseIcon from './close.svg';
 import Events from '../events';
+import posed from 'react-pose';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -15,26 +16,25 @@ class Client extends React.Component {
 
   constructor (props) {
     super(props);
-    this.state = {
-      tab: this.TABS.EVENTS
-    };
+    this.clientDiv = posed.div({
+      hidden: {bottom: 0, right: 20, opacity: 0, transition: '1s all ease-in-out'},
+      visible: {bottom: 90, right: 20, opacity: 1, transition: '1s all ease-in-out'}
+    });
+    this.state = {tab: this.TABS.EVENTS};
   }
 
   /**
    * Render the component.
-   * @returns {VNode<{class: string}>}
+   * @returns {XML}
    */
   render () {
-    if (this.props.visible) {
-      return (
-        <div className={'client'}>
-          {this.renderHeader()}
-          {this.renderBody()}
-        </div>
-      );
-    } else {
-      return (<div className={'client hidden'}></div>);
-    }
+    let Client = this.clientDiv;
+    return (
+      <Client className={'client'} pose={this.props.visible ? 'visible' : 'hidden'}>
+        {this.renderHeader()}
+        {this.renderBody()}
+      </Client>
+    );
   }
 
   /**

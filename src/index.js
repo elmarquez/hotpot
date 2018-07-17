@@ -5,7 +5,7 @@ class HabitatApp extends ReactHabitat.Bootstrapper {
   constructor () {
     super();
     const containerBuilder = new ReactHabitat.ContainerBuilder();
-    containerBuilder.register(App).as('Hotpot');
+    containerBuilder.register(App).as('hotpot');
     this.setContainer(containerBuilder.build());
   }
 }

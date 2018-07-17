@@ -128,15 +128,15 @@ class Events extends React.Component {
   renderEvents () {
     let events = this.props.events.map((m, i) => {
       if (m.type && m.type === 'ANSWER') {
-        return (<AnswerItem data={m} key={m.uuid} />);
+        return (<AnswerItem data={m} key={m.uuid || i} />);
       } else if (m.type && m.type === 'CHANGE') {
-        return (<ChangeItem data={m} key={m.uuid} />);
+        return (<ChangeItem data={m} key={m.uuid || i} />);
       } else if (m.type && m.type === 'CHANGE_LIST') {
-        return (<ChangeList changes={m} expanded={false} key={m.uuid} />);
+        return (<ChangeList changes={m} expanded={false} key={m.uuid || i} />);
       } else if (m.type && m.type === 'MESSAGE') {
-        return (<MessageItem data={m} key={m.uuid} />);
+        return (<MessageItem data={m} key={m.uuid || i} />);
       } else if (m.type && m.type === 'QUESTION') {
-        return (<QuestionItem data={m} key={m.uuid} />);
+        return (<QuestionItem data={m} key={m.uuid || i} />);
       }
     });
     return (<div className={'events scrollable'}>{events}</div>);
