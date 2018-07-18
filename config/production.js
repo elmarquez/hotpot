@@ -1,6 +1,6 @@
 
 const config = {
-  MODULES: ['events', 'client', 'mail'],
+  MODULES: ['api', 'client', 'mail'],
 };
 
 module.exports = config;

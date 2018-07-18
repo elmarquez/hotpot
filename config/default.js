@@ -15,7 +15,7 @@ var config = {
   FEATURES: ['chat', 'message', 'bot', 'changelog', 'qa'],
   FEEDBACK_DISTRIBUTION_LIST: ['dmarq.ezz@gmail.com'],
   MAIL_SERVICE: 'hotpot-sendgrid',
-  MODULES: ['client', 'events', 'mail', 'test'],
+  MODULES: ['api', 'changelog', 'client', 'mail', 'test'],
   PORT: 3000,
   SECRETS: secrets,
   UPLOAD_SIZE_LIMIT: '20mb',
