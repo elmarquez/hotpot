@@ -52,7 +52,10 @@
     "deepmerge": "^2.1.1",
     "express": "^4.16.3",
     "express-pino-logger": "^3.0.2",
+    "fabric": "^2.3.3",
     "feather-icons": "^4.7.3",
+    "hotpot-mailgun": "git+https://github.com/elmarquez/hotpot-mailgun.git",
+    "hotpot-sendgrid": "github:elmarquez/hotpot-sendgrid",
     "html2canvas": "^1.0.0-alpha.12",
     "moment": "^2.22.2",
     "mongodb": "~3.0.8",
@@ -73,6 +76,7 @@
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "soundmanager2": "^2.97.20170602",
+    "string-template": "^1.0.0",
     "uuid": "^3.3.2",
     "yeast": "^0.1.2"
   },

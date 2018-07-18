@@ -1,21 +1,25 @@
-// Load application secrets
-const secrets = require('/etc/hotpot/secrets.json');
+const pino = require('pino')();
 
-const config = {
-  DATABASE: {
-    HOST: 'localhost',
-    PORT: '27017',
-    NAME: 'hotpot',
-    URL: 'mongodb://localhost:27017/hotpot',
-  },
+var secrets = {};
+
+// Load application secrets
+try {
+  secrets = require('/etc/hotpot/secrets.json');
+} catch (err) {
+  pino.error('Failed to load application secrets: ${err}');
+}
+
+var config = {
+  DB_URL: 'mongodb://localhost:27017/hotpot',
   EMAIL_FROM: 'dmarques@unimelb.edu.au',
-  FEEDBACK_DISTRIBUTION_LIST: ['dmarques@unimelb.edu.au'],
-  MAIL_SERVICE: 'sendgrid',
-  MODULES: ['events', 'client'],
+  FEATURES: ['chat', 'message', 'bot', 'changelog', 'qa'],
+  FEEDBACK_DISTRIBUTION_LIST: ['dmarq.ezz@gmail.com'],
+  MAIL_SERVICE: 'hotpot-sendgrid',
+  MODULES: ['client', 'events', 'mail', 'test'],
   PORT: 3000,
   SECRETS: secrets,
-  UPLOAD_SIZE_LIMIT: '50mb',
-  URL_BASE: '/test'
+  UPLOAD_SIZE_LIMIT: '20mb',
+  URL_BASE: '/hotpot'
 };
 
 module.exports = config;

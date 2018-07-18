@@ -1,0 +1,8 @@
+{
+  "DB_URL": "DB_URL",
+  "DISABLE_AUTH": "DISABLE_AUTH",
+  "FEATURES": "FEATURES",
+  "MODULES": "MODULES",
+  "PORT": "PORT",
+  "URL_BASE": "URL_BASE"
+}
