@@ -1,10 +1,11 @@
 /* eslint no-console: 0 */
 /* eslint no-restricted-syntax: 0 */
 import axios from 'axios/index';
-import Client from '../client/index';
+import Chat from '../components/chat/index';
+import Feedback from '../components/feedback/index';
 import merge from 'deepmerge';
 import io from 'socket.io-client';
-import Launcher from '../launcher/index';
+import Launcher from '../components/launcher/index';
 import React from 'react';
 import Promise from 'bluebird';
 import PropTypes from 'prop-types';
@@ -19,6 +20,7 @@ class App extends React.Component {
       base: '/',
       client: false,
       events: [],
+      features: [],
       launcher: true,
       title: 'Product Chat',
       user: {
@@ -64,13 +66,7 @@ class App extends React.Component {
    * Handle component mounted event.
    */
   componentDidMount () {
-    this.connect();
-  }
-
-  /**
-   * Connect to websocket service.
-   */
-  connect () {
+    // TODO enable features
     let self = this;
     self.connectToServer();
     Promise
@@ -106,6 +102,22 @@ class App extends React.Component {
         reject(err);
       }
     });
+  }
+
+  /**
+   * Get client configuration.
+   * @returns {Promise}
+   */
+  getConfiguration () {
+    let self = this;
+    return axios
+      .get(`${self.state.base}/config`)
+      .then(res => {
+        self.setState({features: res.data});
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   /**
@@ -185,7 +197,8 @@ class App extends React.Component {
     return (
       <div className={'hotpot app'}>
         {this.renderLauncher()}
-        {this.renderClient()}
+        {/*{this.renderChat()}*/}
+        {this.renderFeedback()}
       </div>
     );
   }
@@ -194,16 +207,26 @@ class App extends React.Component {
    * Render the client window.
    * @returns {XML}
    */
-  renderClient () {
+  renderChat () {
     return (
-      <Client
+      <Chat
         base={this.state.base}
         events={this.state.events}
         socket={this.state.socket}
         title={this.state.title}
         toggleVisibility={this.toggleClientVisibility}
         user={this.state.user}
-        visible={this.state.client}/>
+        visible={this.state.client} />
+    );
+  }
+
+  renderFeedback () {
+    return (
+      <Feedback
+        base={this.state.base}
+        title={this.state.title}
+        user={this.state.user}
+        visible={this.state.client} />
     );
   }
 

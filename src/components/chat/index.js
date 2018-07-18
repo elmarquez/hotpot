@@ -8,7 +8,7 @@ import React from 'react';
 
 import './styles.scss';
 
-class Client extends React.Component {
+class Chat extends React.Component {
   TABS = {
     ABOUT: 'ABOUT',
     EVENTS: 'EVENTS'
@@ -16,7 +16,7 @@ class Client extends React.Component {
 
   constructor (props) {
     super(props);
-    this.clientDiv = posed.div({
+    this.chatDiv = posed.div({
       hidden: {bottom: 0, right: 20, opacity: 0, transition: '1s all ease-in-out'},
       visible: {bottom: 90, right: 20, opacity: 1, transition: '1s all ease-in-out'}
     });
@@ -28,12 +28,12 @@ class Client extends React.Component {
    * @returns {XML}
    */
   render () {
-    let Client = this.clientDiv;
+    let ChatClient = this.chatDiv;
     return (
-      <Client className={'client'} pose={this.props.visible ? 'visible' : 'hidden'}>
+      <ChatClient className={'client'} pose={this.props.visible ? 'visible' : 'hidden'}>
         {this.renderHeader()}
         {this.renderBody()}
-      </Client>
+      </ChatClient>
     );
   }
 
@@ -80,7 +80,7 @@ class Client extends React.Component {
   }
 }
 
-Client.propTypes = {
+Chat.propTypes = {
   events: PropTypes.array,
   title: PropTypes.string,
   socket: PropTypes.object,
@@ -89,4 +89,4 @@ Client.propTypes = {
   visible: PropTypes.bool
 };
 
-export default Client;
+export default Chat;

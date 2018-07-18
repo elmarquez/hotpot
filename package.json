@@ -55,7 +55,7 @@
     "fabric": "^2.3.3",
     "feather-icons": "^4.7.3",
     "hotpot-mailgun": "git+https://github.com/elmarquez/hotpot-mailgun.git",
-    "hotpot-sendgrid": "github:elmarquez/hotpot-sendgrid",
+    "hotpot-sendgrid": "git+https://github.com/elmarquez/hotpot-sendgrid.git",
     "html2canvas": "^1.0.0-alpha.12",
     "moment": "^2.22.2",
     "mongodb": "~3.0.8",

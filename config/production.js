@@ -1,6 +1,7 @@
 
 const config = {
-  MODULES: ['api', 'client', 'mail'],
+  FEATURES: ['chat', 'launcher', 'message', 'bot', 'changelog', 'qa'],
+  MODULES: ['api', 'changelog', 'client', 'mail']
 };
 
 module.exports = config;

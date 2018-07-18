@@ -1,0 +1,70 @@
+.hotpot.app .feedback {
+  align-items: stretch;
+  background-color: ghostwhite;
+  border-radius: 6px;
+  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  justify-content: space-between;
+  position: fixed;
+  width: 320px;
+  z-index: 1010;
+
+  >.body {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 2;
+    font-size: medium;
+
+    form {
+      align-items: stretch;
+      background: transparent;
+      display: flex;
+      flex-direction: row;
+      flex-grow: 2;
+      margin: 8px;
+
+      textarea {
+        background: transparent;
+        border: none;
+        flex-grow: 2;
+        font-size: medium;
+        outline: none;
+        resize: none;
+      }
+    }
+  }
+
+  >.footer {
+    align-items: stretch;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    height: 42px;
+    justify-content: space-between;
+    min-height: 42px;
+  }
+
+  >.header {
+    align-items: stretch;
+    background-color: dodgerblue;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    font-size: small;
+    font-weight: 300;
+    height: 80px;
+    justify-content: center;
+    max-height: 80px;
+    min-height: 80px;
+  }
+
+  .inset {
+    margin: 12px;
+  }
+}

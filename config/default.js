@@ -12,7 +12,7 @@ try {
 var config = {
   DB_URL: 'mongodb://localhost:27017/hotpot',
   EMAIL_FROM: 'dmarques@unimelb.edu.au',
-  FEATURES: ['chat', 'message', 'bot', 'changelog', 'qa'],
+  FEATURES: ['chat', 'launcher', 'message', 'bot', 'changelog', 'qa'],
   FEEDBACK_DISTRIBUTION_LIST: ['dmarq.ezz@gmail.com'],
   MAIL_SERVICE: 'hotpot-sendgrid',
   MODULES: ['api', 'changelog', 'client', 'mail', 'test'],

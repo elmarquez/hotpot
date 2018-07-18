@@ -1,4 +1,4 @@
-import App from './components/app';
+import App from './app';
 import ReactHabitat from 'react-habitat';
 
 class HabitatApp extends ReactHabitat.Bootstrapper {
