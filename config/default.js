@@ -6,7 +6,7 @@ var secrets = {};
 try {
   secrets = require('/etc/hotpot/secrets.json');
 } catch (err) {
-  pino.error('Failed to load application secrets: ${err}');
+  pino.error(`Failed to load application secrets: ${err}`);
 }
 
 var config = {
