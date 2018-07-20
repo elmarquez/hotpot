@@ -156,7 +156,7 @@ class Events extends React.Component {
             type={'text'}
             value={this.state.message} />
         </form>
-        <Icon className={'control screenshot'} icon={camera} onClick={this.getScreenshot} title={'Attach a screenshot'} />
+        {/* <Icon className={'control screenshot'} icon={camera} onClick={this.getScreenshot} title={'Attach a screenshot'}/> */}
       </div>
     );
   }
