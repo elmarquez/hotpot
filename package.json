@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "description": "Product discussion and co-creation",
   "scripts": {
-    "build": "parcel build src/index.js --out-dir build --out-file bundle.js --public-url hotpot/client",
-    "build:dev": "NODE_ENV=development parcel build src/index.js --out-dir build --out-file bundle.js --public-url hotpot/client",
+    "build": "parcel build src/index.js --out-dir build --out-file bundle.js --public-url /hotpot/client",
+    "build:dev": "NODE_ENV=development parcel build src/index.js --out-dir build --out-file bundle.js --public-url /hotpot/client",
     "lint": "eslint ./src/ || true",
     "serve": "node index.js",
     "test": "npm run lint && npm run -s test:karma",
-    "watch": "NODE_ENV=development parcel watch src/index.js --out-dir build --out-file bundle.js --public-url hotpot/client"
+    "watch": "NODE_ENV=development parcel watch src/index.js --out-dir build --out-file bundle.js --public-url /hotpot/client"
   },
   "private": true,
   "author": "Davis Marques <dmarques@unimelb.edu.au>",

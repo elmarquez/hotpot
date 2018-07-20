@@ -1,7 +1,6 @@
 /* eslint no-console: 0 */
 /* eslint no-restricted-syntax: 0 */
 import axios from 'axios/index';
-import config from '../../config/default';
 import Chat from '../components/chat/index';
 import Feedback from '../components/feedback/index';
 import merge from 'deepmerge';
@@ -18,7 +17,7 @@ class App extends React.Component {
     super(props);
     // default state
     let state = {
-      base: `${config.URL_BASE}`,
+      base: '/',
       client: false,
       events: [],
       features: [],
