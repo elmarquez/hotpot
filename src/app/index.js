@@ -197,8 +197,8 @@ class App extends React.Component {
     return (
       <div className={'hotpot app'}>
         {this.renderLauncher()}
-        {/*{this.renderChat()}*/}
-        {this.renderFeedback()}
+        {this.renderChat()}
+        {/*{this.renderFeedback()}*/}
       </div>
     );
   }
