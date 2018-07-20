@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 /* eslint no-restricted-syntax: 0 */
 import axios from 'axios/index';
+import config from '../../config/default';
 import Chat from '../components/chat/index';
 import Feedback from '../components/feedback/index';
 import merge from 'deepmerge';
@@ -17,7 +18,7 @@ class App extends React.Component {
     super(props);
     // default state
     let state = {
-      base: '/',
+      base: `${config.URL_BASE}`,
       client: false,
       events: [],
       features: [],
@@ -126,7 +127,7 @@ class App extends React.Component {
    */
   getEvents () {
     let self = this;
-    return axios.get('/events').then(res => {
+    return axios.get(`${self.state.base}/events`).then(res => {
       self.setState({events: res.data});
     });
   }
@@ -196,9 +197,9 @@ class App extends React.Component {
   render () {
     return (
       <div className={'hotpot app'}>
-        {this.renderLauncher()}
-        {this.renderChat()}
-        {/*{this.renderFeedback()}*/}
+        { this.renderLauncher() }
+        { this.renderChat() }
+        {/* this.renderFeedback() */}
       </div>
     );
   }
