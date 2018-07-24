@@ -48,7 +48,7 @@ Hotpot is a self-contained service that can be integrated into your
 existing application be inserting the following minimum HTML: 
 
     <div data-component="hotpot"
-         data-props='{"base":"/","channel":"test","title":"Hotpot","user":{"path":"/api/user"}}'></div>
+         data-props='{"base":"/hotpot","channel":"test","title":"Hotpot","user":{"path":"/api/user"}}'></div>
     <link type="text/css" rel="stylesheet" href="/client/bundle.css">
     <script src="/client/bundle.js" type="text/javascript"></script>
 
@@ -66,7 +66,7 @@ application.
 In nginx, you might achieve this by doing something like the following:
 
     location / {
-        sub_filter '</body>'  '<div data-component="hotpot" data-props=\'{"base":"/","channel":"test","title":"Hotpot","user":{"path":"/api/user"}}\'></div>
+        sub_filter '</body>'  '<div data-component="hotpot" data-props=\'{"base":"/hotpot","channel":"test","title":"Hotpot","user":{"path":"/api/user"}}\'></div>
                                <link type="text/css" rel="stylesheet" href="/client/bundle.css">
                                <script src="/client/bundle.js" type="text/javascript"></script>
                                </body>';
