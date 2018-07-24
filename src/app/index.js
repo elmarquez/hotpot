@@ -90,7 +90,8 @@ class App extends React.Component {
     let self = this;
     return new Promise(function (resolve, reject) {
       try {
-        let options = {};
+        // communicate on the /{URL_BASE}/socket.io path
+        let options = { path: `${self.state.base}/socket.io` };
         let socket = io(self.state.base, options);
         // TODO add handlers for all socket events
         // TODO handle disconnect by changing the client state
