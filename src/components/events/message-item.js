@@ -13,7 +13,7 @@ class MessageItem extends React.Component {
    */
   render () {
     return (
-      <div className={'event message'} key={this.props.key}>
+      <div className={'event message'}>
         <div className={'row'}>
           <div className={'avatar'}>&nbsp;</div>
           <div className={'card'}>
@@ -27,7 +27,6 @@ class MessageItem extends React.Component {
 
 MessageItem.propTypes = {
   data: PropTypes.object,
-  key: PropTypes.string
 };
 
 export default MessageItem;

@@ -19,6 +19,8 @@ class App extends React.Component {
     let state = {
       base: '/',
       client: false,
+      config: {},
+      event: {},
       events: [],
       features: [],
       launcher: true,
@@ -51,6 +53,7 @@ class App extends React.Component {
     // assign state
     this.state = state;
     // bind event handlers to the class context
+    this.getConfiguration = this.getConfiguration.bind(this);
     this.getEvents = this.getEvents.bind(this);
     this.getUserProfile = this.getUserProfile.bind(this);
     this.handleEventReceived = this.handleEventReceived.bind(this);
@@ -111,7 +114,7 @@ class App extends React.Component {
   getConfiguration () {
     let self = this;
     return axios
-      .get(`${self.state.base}/config`)
+      .get(`${self.state.base}/api/config`)
       .then(res => {
         self.setState({features: res.data});
       })
@@ -126,7 +129,7 @@ class App extends React.Component {
    */
   getEvents () {
     let self = this;
-    return axios.get(`${self.state.base}/events`).then(res => {
+    return axios.get(`${self.state.base}/api/events`).then(res => {
       self.setState({events: res.data});
     });
   }
@@ -137,9 +140,8 @@ class App extends React.Component {
    */
   getUserProfile () {
     let self = this;
-    let url = '/user';
+    let url = `${self.state.base}${self.state.user.path}`;
     return axios.get(url).then(res => {
-      console.log('user profile', res.data);
       self.setState({user: res.data});
     });
   }
