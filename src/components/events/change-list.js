@@ -26,7 +26,7 @@ class ChangeList extends React.Component {
    */
   render () {
     return (
-      <div className={'event changes'} key={this.props.key}>
+      <div className={'event changes'}>
         <div className={'title'}>
           Changes ({this.props.changes.length} commits)
           {this.renderExpander()}
@@ -76,8 +76,7 @@ class ChangeList extends React.Component {
 
 ChangeList.propTypes = {
   changes: PropTypes.array,
-  expanded: PropTypes.bool,
-  key: PropTypes.string
+  expanded: PropTypes.bool
 };
 
 export default ChangeList;

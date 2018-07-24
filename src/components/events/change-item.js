@@ -21,7 +21,7 @@ class ChangeItem extends React.Component {
 
   renderCard () {
     return (
-      <div className={'event card commit'} id={this.props.data.uuid} key={this.props.data.key}>
+      <div className={'event card commit'} id={this.props.data.uuid}>
         <div className={'header'}>
           <div className={'author'}>{this.props.data.author}</div>
           <div className={'date'}>{moment(this.props.data.date).format('MMM DD')}</div>
@@ -36,7 +36,7 @@ class ChangeItem extends React.Component {
 
   renderTextListing () {
     return (
-      <div className={'event commit'} id={this.props.data.uuid} key={this.props.data.key}>
+      <div className={'event commit'} id={this.props.data.uuid}>
         <div className={'row'}>
           <Icon className={'icon'} icon={code} size={16}/>
           <div className={'message'}>{this.props.data.message}</div>
@@ -48,8 +48,7 @@ class ChangeItem extends React.Component {
 }
 
 ChangeItem.propTypes = {
-  data: PropTypes.object,
-  key: PropTypes.string
+  data: PropTypes.object
 };
 
 export default ChangeItem;

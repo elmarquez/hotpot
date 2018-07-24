@@ -10,7 +10,6 @@ try {
 }
 
 var config = {
-  API_BASE: '/api',
   DB_URL: 'mongodb://localhost:27017/hotpot',
   EMAIL_FROM: 'dmarques@unimelb.edu.au',
   FEATURES: ['chat', 'launcher', 'message', 'bot', 'changelog', 'qa'],

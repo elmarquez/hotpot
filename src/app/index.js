@@ -114,7 +114,7 @@ class App extends React.Component {
   getConfiguration () {
     let self = this;
     return axios
-      .get(`${self.state.base}${self.state.config.path}`)
+      .get(`${self.state.base}/api/config`)
       .then(res => {
         self.setState({features: res.data});
       })
@@ -129,7 +129,7 @@ class App extends React.Component {
    */
   getEvents () {
     let self = this;
-    return axios.get(`${self.state.base}${self.state.event.path}`).then(res => {
+    return axios.get(`${self.state.base}/api/events`).then(res => {
       self.setState({events: res.data});
     });
   }

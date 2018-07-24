@@ -14,7 +14,7 @@ class AnswerItem extends React.Component {
    */
   render () {
     return (
-      <div className={'event card answer'} id={this.props.data.uuid} key={this.props.data.key}>
+      <div className={'event card answer'} id={this.props.data.uuid}>
         <div className={'header'}>
           <div className={'author'}>{this.props.data.user}</div>
           <div className={'date'}>{moment(this.props.data.date).format('MMM DD')}</div>
@@ -26,8 +26,7 @@ class AnswerItem extends React.Component {
 }
 
 AnswerItem.propTypes = {
-  data: PropTypes.object,
-  key: PropTypes.string
+  data: PropTypes.object
 };
 
 export default AnswerItem;

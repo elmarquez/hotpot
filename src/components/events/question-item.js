@@ -13,7 +13,7 @@ class QuestionItem extends React.Component {
    */
   render () {
     return (
-      <div className={'event question'} key={this.props.key}>
+      <div className={'event question'}>
         <div className={'header'}>
           <span className={'title'}>Question</span>
         </div>
@@ -24,8 +24,7 @@ class QuestionItem extends React.Component {
 }
 
 QuestionItem.propTypes = {
-  data: PropTypes.object,
-  key: PropTypes.string
+  data: PropTypes.object
 };
 
 export default QuestionItem;
