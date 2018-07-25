@@ -17,7 +17,7 @@ class Chat extends React.Component {
   constructor (props) {
     super(props);
     this.chatDiv = posed.div({
-      hidden: {bottom: 0, right: 20, opacity: 0, transition: '1s all ease-in-out'},
+      hidden: {bottom: 90, right: -340, opacity: 0, transition: '1s all ease-in-out'},
       visible: {bottom: 90, right: 20, opacity: 1, transition: '1s all ease-in-out'}
     });
     this.state = {tab: this.TABS.EVENTS};
