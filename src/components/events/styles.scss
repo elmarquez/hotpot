@@ -147,6 +147,8 @@
     }
     .card {
       flex-grow: 2;
+      word-wrap: break-word;
+      max-width: 248px;
 
       p {
         flex-grow: 2;

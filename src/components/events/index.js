@@ -87,9 +87,10 @@ class Events extends React.Component {
     event.preventDefault();
     if (this.state.message !== '') {
       let msg = {
-        fullname: this.props.user.fullname,
+        fullName: this.props.user.fullName,
         message: this.state.message,
-        user: this.props.user.uuid,
+        user: this.props.user.username,
+        email: this.props.user.email,
         url: window.location.href
       };
       this.props.socket.emit('discussion', msg);

@@ -26,7 +26,7 @@ class MessageItem extends React.Component {
 }
 
 MessageItem.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.object
 };
 
 export default MessageItem;
