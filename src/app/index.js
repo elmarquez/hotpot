@@ -141,10 +141,18 @@ class App extends React.Component {
    */
   getUserProfile () {
     let self = this;
-    let url = `${self.state.base}${self.state.user.path}`;
-    return axios.get(url).then(res => {
-      self.setState({user: res.data});
-    });
+    // let url = `${self.state.base}${self.state.user.path}`;
+    let url = `/api/user-profile`;
+    return axios.get(url, { withCredentials: true })
+      .then(res => {
+        self.setState({ user: res.data });
+        return res.data;
+      })
+      .catch(err => {
+        if (err.response) {
+          console.log(`Can't fetch user details: ${err.response.status}`);
+        }
+      });
   }
 
   /**
