@@ -7,6 +7,14 @@ import './styles.scss';
  * A user message.
  */
 class MessageItem extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      data: props.data,
+      initials: this.getInitials()
+    };
+  }
+
   /**
    * Render component.
    * @returns {XML}
@@ -15,18 +23,25 @@ class MessageItem extends React.Component {
     return (
       <div className={'event message'}>
         <div className={'row'}>
-          <div className={'avatar'}>&nbsp;</div>
+          <div className={'avatar'}><span>&nbsp;{this.state.initials}</span></div>
           <div className={'card'}>
-            <p>{this.props.data.message}</p>
+            <p>{this.state.data.message}</p>
           </div>
         </div>
       </div>
     );
   }
+
+  getInitials () {
+    let fullName = this.props.data.fullName === 'N/A' ? 'A D' : this.props.data.fullName;
+    let initials = fullName.match(/\b\w/g) || [];
+    return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
+  }
 }
 
 MessageItem.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  initials: PropTypes.string
 };
 
 export default MessageItem;
