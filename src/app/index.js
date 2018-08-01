@@ -26,10 +26,10 @@ class App extends React.Component {
       launcher: true,
       title: 'Product Chat',
       user: {
-        avatar: '/example',
-        fullname: 'John Doe',
-        path: '/user',
-        uuid: 'c8fdb983-88f5-4eab-85e5-754c6653690c'
+        avatar: '',
+        fullName: '',
+        path: '',
+        uuid: ''
       }
     };
     // assign local configuration from props
@@ -62,7 +62,6 @@ class App extends React.Component {
     this.handleSocketDisconnect = this.handleSocketDisconnect.bind(this);
     this.handleSocketError = this.handleSocketError.bind(this);
     this.handleSocketReconnect = this.handleSocketReconnect.bind(this);
-    // start
   }
 
   /**
@@ -71,9 +70,11 @@ class App extends React.Component {
   componentDidMount () {
     // TODO enable features
     let self = this;
-    self.connectToServer();
-    Promise
-      .all([self.getUserProfile(), self.getEvents()])
+    self
+      .connectToServer()
+      .then(() => {
+        return Promise.all([self.getUserProfile(), self.getEvents()]);
+      })
       .then(res => {
         self.setState({ user: res[0].data });
         self.setState({ events: res[1].data });
@@ -141,7 +142,7 @@ class App extends React.Component {
    * @returns {Promise.<TResult>}
    */
   getUserProfile () {
-    let url = `/api/user-profile`;
+    let url = `${this.props.user}`;
     return axios.get(url, { withCredentials: true });
   }
 
@@ -254,7 +255,7 @@ App.propTypes = {
   channel: PropTypes.string,
   proxy: PropTypes.object,
   title: PropTypes.string,
-  user: PropTypes.object
+  user: PropTypes.string
 };
 
 export default App;

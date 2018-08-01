@@ -143,10 +143,19 @@
 
   .event.message {
     .avatar {
+      display: flex;
       margin-top: 8px;
-      font-size: 17px;
-      color: whitesmoke;
-      align-content: center;
+      text-align: center;
+
+      .initials {
+        align-content: center;
+        color: whitesmoke;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 2;
+        font-size: x-small;
+        justify-content: center;
+      }
     }
     .card {
       flex-grow: 2;
