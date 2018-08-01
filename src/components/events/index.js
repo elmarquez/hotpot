@@ -87,7 +87,7 @@ class Events extends React.Component {
     event.preventDefault();
     if (this.state.message !== '') {
       let msg = {
-        fullName: this.props.user.fullName,
+        fullName: this.props.user.fullName || this.props.user.fullname,
         message: this.state.message,
         user: this.props.user.username,
         email: this.props.user.email,

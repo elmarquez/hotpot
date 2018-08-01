@@ -76,10 +76,6 @@ class App extends React.Component {
       .then(() => {
         return Promise.all([self.getUserProfile(), self.getEvents()]);
       })
-      .then(res => {
-        self.setState({ user: res[0].data });
-        self.setState({ events: res[1].data });
-      })
       .catch(err => {
         if (err.response) {
           console.log(`Can't fetch user details: ${err.response.status}`);
@@ -135,7 +131,11 @@ class App extends React.Component {
    */
   getEvents () {
     let self = this;
-    return axios.get(`${self.state.base}/api/events`);
+    return axios
+      .get(`${self.state.base}/api/events`, {withCredentials: true})
+      .then(res => {
+        self.setState({events: res.data});
+      });
   }
 
   /**
@@ -143,8 +143,13 @@ class App extends React.Component {
    * @returns {Promise.<TResult>}
    */
   getUserProfile () {
-    let url = `${this.props.user}`;
-    return axios.get(url, { withCredentials: true });
+    let self = this;
+    let url = `${self.props.user}`;
+    return axios
+      .get(url, {withCredentials: true})
+      .then(res => {
+        self.setState({user: res.data});
+      });
   }
 
   /**
