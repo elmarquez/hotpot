@@ -2,13 +2,14 @@ import About from '../about';
 import AgentIcon from './origami.svg';
 import CloseIcon from './close.svg';
 import Events from '../events';
+import Feedback from '../feedback/index';
 import posed from 'react-pose';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import './styles.scss';
 
-class Chat extends React.Component {
+class Client extends React.Component {
   TABS = {
     ABOUT: 'ABOUT',
     EVENTS: 'EVENTS'
@@ -17,6 +18,7 @@ class Chat extends React.Component {
   constructor (props) {
     super(props);
     this.chatDiv = posed.div({
+      disconnected: {bottom: 90, right: 20, opacity: 0.5, transition: '1s all ease-in-out'},
       hidden: {bottom: 90, right: -340, opacity: 0, transition: '1s all ease-in-out'},
       visible: {bottom: 90, right: 20, opacity: 1, transition: '1s all ease-in-out'}
     });
@@ -28,12 +30,15 @@ class Chat extends React.Component {
    * @returns {XML}
    */
   render () {
-    let ChatClient = this.chatDiv;
+    let ClientClient = this.chatDiv;
+    let pose = this.props.visible && this.props.connected ?
+      'visible' : this.props.visible && !this.props.connected ?
+      'disconnected' : 'hidden';
     return (
-      <ChatClient className={'client'} pose={this.props.visible ? 'visible' : 'hidden'}>
+      <ClientClient className={'client'} pose={pose}>
         {this.renderHeader()}
         {this.renderBody()}
-      </ChatClient>
+      </ClientClient>
     );
   }
 
@@ -54,7 +59,7 @@ class Chat extends React.Component {
    * @returns {XML}
    */
   renderHeader () {
-    let title = this.props.title || 'Product Chat';
+    let title = this.props.title || 'Product Client';
     return (
       <div className={'header'}>
         <div className={'row agent'}>
@@ -93,7 +98,8 @@ class Chat extends React.Component {
   }
 }
 
-Chat.propTypes = {
+Client.propTypes = {
+  connected: PropTypes.bool,
   events: PropTypes.array,
   logo: PropTypes.string,
   title: PropTypes.string,
@@ -103,4 +109,4 @@ Chat.propTypes = {
   visible: PropTypes.bool
 };
 
-export default Chat;
+export default Client;

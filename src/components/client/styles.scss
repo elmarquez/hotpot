@@ -130,6 +130,11 @@
   }
 }
 
+.hotpot.app .client.disconnected {
+  opacity: 0.5 !important;
+  pointer-events: none !important;
+}
+
 .hotpot.app .row {
   display: flex;
   flex-direction: row;

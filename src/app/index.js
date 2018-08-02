@@ -1,8 +1,7 @@
 /* eslint no-console: 0 */
 /* eslint no-restricted-syntax: 0 */
 import axios from 'axios/index';
-import Chat from '../components/chat/index';
-import Feedback from '../components/feedback/index';
+import Client from '../components/client/index';
 import merge from 'deepmerge';
 import io from 'socket.io-client';
 import Launcher from '../components/launcher/index';
@@ -20,14 +19,14 @@ class App extends React.Component {
       base: '/',
       client: false,
       config: {},
-      event: {},
+      connected: false,
       events: [],
-      features: [],
       launcher: true,
       logo: null,
       title: 'Product Chat',
       user: {
         avatar: '',
+        email: '',
         fullName: '',
         path: '',
         uuid: ''
@@ -91,11 +90,10 @@ class App extends React.Component {
     let self = this;
     return new Promise(function (resolve, reject) {
       try {
-        // communicate on the /{URL_BASE}/socket.io path
+        // communicate on the specified socket.io path
         let options = { path: `${self.state.base}/socket.io` };
         let socket = io(self.state.base, options);
-        // TODO add handlers for all socket events
-        // TODO handle disconnect by changing the client state
+        // handlers for socket events
         socket.on('connect', self.handleSocketConnect);
         socket.on('connect_error', self.handleSocketConnectError);
         socket.on('disconnect', self.handleSocketDisconnect);
@@ -118,7 +116,7 @@ class App extends React.Component {
     return axios
       .get(`${self.state.base}/api/config`)
       .then(res => {
-        self.setState({features: res.data});
+        self.setState({config: res.data});
       })
       .catch(err => {
         console.log(err);
@@ -166,7 +164,7 @@ class App extends React.Component {
    * Handle websocket connection.
    */
   handleSocketConnect () {
-    console.log('socket connected');
+    this.setState({connected: true});
   }
 
   /**
@@ -180,7 +178,7 @@ class App extends React.Component {
    * Handle websocket disconnect.
    */
   handleSocketDisconnect (e) {
-    console.log('socket disconnected');
+    this.setState({connected: false});
   }
 
   /**
@@ -194,7 +192,7 @@ class App extends React.Component {
    * Handle websocket reconnect.
    */
   handleSocketReconnect (e) {
-    console.log('socket reconnect');
+    this.setState({connected: true});
   }
 
   /**
@@ -205,8 +203,7 @@ class App extends React.Component {
     return (
       <div className={'hotpot app'}>
         { this.renderLauncher() }
-        { this.renderChat() }
-        {/* this.renderFeedback() */}
+        { this.renderClient() }
       </div>
     );
   }
@@ -215,29 +212,17 @@ class App extends React.Component {
    * Render the client window.
    * @returns {XML}
    */
-  renderChat () {
+  renderClient () {
     return (
-      <Chat
+      <Client
         base={this.state.base}
+        config={this.state.config}
+        connected={this.state.connected}
         events={this.state.events}
         logo={this.state.logo}
         socket={this.state.socket}
         title={this.state.title}
         toggleVisibility={this.toggleClientVisibility}
-        user={this.state.user}
-        visible={this.state.client} />
-    );
-  }
-
-  /**
-   * Render feedback widget.
-   * @returns {XML}
-   */
-  renderFeedback () {
-    return (
-      <Feedback
-        base={this.state.base}
-        title={this.state.title}
         user={this.state.user}
         visible={this.state.client} />
     );
