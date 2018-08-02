@@ -65,7 +65,7 @@
         margin-right: 8px;
       }
 
-      .avatar {
+      .logo {
         align-items: center;
         background-color: white;
         border: 3px solid dodgerblue;
@@ -75,14 +75,19 @@
         justify-content: center;
         min-height: 72px;
         min-width: 72px;
-        //transform: translateX(4px) translateY(-0px);
         height: 72px;
         width: 72px;
         z-index: 100;
       }
-      .avatar img {
+
+      .logo img {
         height: 70%;
         width: 70%;
+      }
+
+      .logo.external img {
+        height: 100%;
+        width: 100%;
       }
 
       .title {

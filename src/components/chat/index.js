@@ -51,15 +51,14 @@ class Chat extends React.Component {
 
   /**
    * Render header.
+   * @returns {XML}
    */
   renderHeader () {
     let title = this.props.title || 'Product Chat';
     return (
       <div className={'header'}>
         <div className={'row agent'}>
-          <div className={'avatar'}>
-            <img alt={'Product Developer'} src={AgentIcon} />
-          </div>
+          {this.renderLogo()}
           <div className={'title'}>{title}</div>
           <img className={'close'} onClick={this.props.toggleVisibility} src={CloseIcon} />
         </div>
@@ -67,6 +66,20 @@ class Chat extends React.Component {
           Thanks for visiting! We’re away right now but if you have a suggestion,
           feel free to leave a message and we&apos;ll get back to you soon!
         </div>
+      </div>
+    );
+  }
+
+  /**
+   * Render logo.
+   * @returns {XML}
+   */
+  renderLogo () {
+    let classes = this.props.logo ? 'logo external' : 'logo';
+    let url = this.props.logo ? this.props.logo : AgentIcon;
+    return (
+      <div className={classes}>
+        <img alt={'Product Developer'} src={url} />
       </div>
     );
   }
@@ -82,6 +95,7 @@ class Chat extends React.Component {
 
 Chat.propTypes = {
   events: PropTypes.array,
+  logo: PropTypes.string,
   title: PropTypes.string,
   socket: PropTypes.object,
   toggleVisibility: PropTypes.func,

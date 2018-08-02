@@ -24,6 +24,7 @@ class App extends React.Component {
       events: [],
       features: [],
       launcher: true,
+      logo: null,
       title: 'Product Chat',
       user: {
         avatar: '',
@@ -214,6 +215,7 @@ class App extends React.Component {
       <Chat
         base={this.state.base}
         events={this.state.events}
+        logo={this.state.logo}
         socket={this.state.socket}
         title={this.state.title}
         toggleVisibility={this.toggleClientVisibility}
@@ -222,6 +224,10 @@ class App extends React.Component {
     );
   }
 
+  /**
+   * Render feedback widget.
+   * @returns {XML}
+   */
   renderFeedback () {
     return (
       <Feedback
@@ -233,7 +239,7 @@ class App extends React.Component {
   }
 
   /**
-   * Render the launcher.
+   * Render launcher widget.
    * @returns {XML}
    */
   renderLauncher () {
@@ -253,6 +259,7 @@ class App extends React.Component {
 App.propTypes = {
   base: PropTypes.string,
   channel: PropTypes.string,
+  logo: PropTypes.string,
   proxy: PropTypes.object,
   title: PropTypes.string,
   user: PropTypes.string
