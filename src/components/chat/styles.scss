@@ -55,6 +55,7 @@
     justify-content: space-between;
     max-height: 130px;
     min-height: 130px;
+    overflow: inherit;
 
     .row.agent {
       align-items: center;
@@ -131,7 +132,9 @@
 .hotpot.app .row {
   display: flex;
   flex-direction: row;
+  margin: 0;
 }
+
 .hotpot.app .row.hidden {
   display: none;
 }
