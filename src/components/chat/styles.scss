@@ -73,10 +73,11 @@
         border-radius: 46px;
         display: flex;
         flex-direction: column;
+        height: 72px;
         justify-content: center;
         min-height: 72px;
         min-width: 72px;
-        height: 72px;
+        overflow: hidden;
         width: 72px;
         z-index: 100;
       }
